@@ -1,0 +1,10 @@
+# Dependencies
+node_modules
+
+# Logs
+logs
+*.logs
+
+# Compiled directory and file
+build/
+bundle.js
