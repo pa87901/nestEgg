@@ -1,7 +1,7 @@
 'use strict'
 const express = require('express');
 const bodyParser = require('body-parser');
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 const path = require('path');
 
 const app = express();
@@ -9,10 +9,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/../client/dist`));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
+app.use('*', (req, res) => {
+  res.status(404).send();
 });
 
-app.listen(port, err => {
-  err ? console.error('Error with server') : console.log(`Listening on port ${port}`);
+app.listen(PORT, err => {
+  err ? console.error('Error with server') : console.log(`Listening on port ${PORT}`);
 });
+
+// module.exports = app;

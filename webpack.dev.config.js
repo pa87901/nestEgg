@@ -7,7 +7,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config = {
   entry: [
     'react-hot-loader/patch', // for hot module replacement
-    'webpack-dev-server/client?http://localhost:5000', //for hot module replacement
+    'webpack-dev-server/client?http://localhost:3000', //for hot module replacement
     'webpack/hot/only-dev-server', // for hot module replacement
     `${SRC_DIR}/index.jsx`
   ],
