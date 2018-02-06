@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/pa87901/nestEgg/issues"
   },
-  "homepage": "https://github.com/pa87901/nestEgg#readme"
+  "homepage": "https://github.com/pa87901/nestEgg#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
 }
