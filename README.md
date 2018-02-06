@@ -1,4 +1,4 @@
-# nestEgg
+# Nest Egg
 
 Nest Egg is a work in progress.
 I intend to build a portfolio view that updates with securities prices each day.
