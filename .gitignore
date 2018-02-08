@@ -8,3 +8,6 @@ logs
 # Compiled directory and file
 build/
 bundle.js
+
+# Dummy positions
+dummyPositions.js

@@ -42,6 +42,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^3.1.3",
+    "semantic-ui-react": "^0.78.2",
     "webpack": "^3.10.0"
   },
   "devDependencies": {

@@ -5,3 +5,11 @@ body {
 h1 {
   color: #ffffff;
 }
+
+.blotter-container {
+  margin: 10%;
+}
+
+#blotter {
+  color: #ffffff;
+}
