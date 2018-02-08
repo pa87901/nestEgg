@@ -16,5 +16,3 @@ app.use('*', (req, res) => {
 app.listen(PORT, err => {
   err ? console.error('Error with server') : console.log(`Listening on port ${PORT}`);
 });
-
-// module.exports = app;
