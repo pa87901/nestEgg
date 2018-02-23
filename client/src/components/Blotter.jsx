@@ -14,7 +14,7 @@ const Blotter = () => (
         <Table.HeaderCell>Mkt value</Table.HeaderCell>
         <Table.HeaderCell>Gain</Table.HeaderCell>
         <Table.HeaderCell>Gain %</Table.HeaderCell>
-        <Table.HeaderCell>Day's gain</Table.HeaderCell>
+        <Table.HeaderCell>Day&#39;s gain</Table.HeaderCell>
         <Table.HeaderCell>Total return</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
@@ -61,8 +61,10 @@ const Blotter = () => (
       </Table.Row>
     </Table.Body>
 
+    {/*
     <Table.Footer>
     </Table.Footer>
+    */}
   </Table>
 );
 
