@@ -7,8 +7,8 @@ const Portfolio = () => (
     <Segment>
       <Blotter />
     </Segment>
-    <Segment>Middle</Segment>
-    <Segment>Bottom</Segment>
+    <Segment>Bovril</Segment>
+    <Segment>Marmite</Segment>
   </Segment.Group>
 );
 
