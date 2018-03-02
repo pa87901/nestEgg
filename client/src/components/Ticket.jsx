@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, Header, Icon, Form, Dropdown } from 'semantic-ui-react';
+import { Modal, Button, Icon, Form, Dropdown } from 'semantic-ui-react';
 
 const transaction = [
   { text: 'Buy', value: 'buy' },
@@ -7,26 +7,30 @@ const transaction = [
 ];
 
 const Ticket = () => (
-  <Modal trigger={<Button basic color='black'><Icon name='book' /> Book trade</Button>}>
-    <Modal.Header>
-      Trade ticket
-    </Modal.Header>
+  <Modal
+    id="ticket"
+    trigger={
+      <Button basic color='black'>
+        <Icon name='book' />
+        Book trade
+      </Button>
+    }>
+    <Modal.Header>Trade ticket</Modal.Header>
     <Modal.Content>
       <Modal.Description>
-        <Header>Ticket form will go here</Header>
-        <Form>
+        <Form className="form">
           <Form.Input
             label='Add symbol'
             placeholder='Symbol'
             width={6} />
-          <Form.Field width={6}>
+          <Form.Field width={6} >
             <label htmlFor='transactionType'>Transaction type</label>
             <Dropdown
               selection
               placeholder='Transaction type'
               options={transaction} />
           </Form.Field>
-          <Form.Field width={6}>
+          <Form.Field width={6} >
             <label htmlFor='date'>Date</label>
             <input
               id='date'
@@ -38,6 +42,6 @@ const Ticket = () => (
       </Modal.Description>
     </Modal.Content>
   </Modal>
-)
+);
 
 export default Ticket;
