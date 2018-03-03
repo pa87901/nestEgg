@@ -25,5 +25,7 @@ export default function reducer(
       return { ...state, symbol: action.payload };
     case SET_BOOKING_PRICE:
       return { ...state, symbol: action.payload };
+    default:
+      return state;
   }
-}
+};

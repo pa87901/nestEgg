@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import Holding from './Holding';
-import DummyData from './dummyHoldings';
+// import DummyData from './dummyHoldings';
 
-const Blotter = () => (
+const Blotter = ({ holdings }) => (
   <Table celled>
     <Table.Header>
       <Table.Row>
@@ -23,9 +25,7 @@ const Blotter = () => (
     </Table.Header>
 
     <Table.Body>
-      <Holding data={DummyData.holding1}/>
-      <Holding data={DummyData.holding2}/>
-      <Holding data={DummyData.holding3}/>
+      {holdings.map(holding => <Holding key={holding.name} data={holding} />)}
     </Table.Body>
 
     {/*
@@ -35,4 +35,12 @@ const Blotter = () => (
   </Table>
 );
 
-export default Blotter;
+Blotter.propTypes = {
+  holdings: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
+};
+
+const mapStateToProps = state => ({
+  holdings: state.holdings.holdings
+});
+
+export default connect(mapStateToProps, null)(Blotter);
