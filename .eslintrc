@@ -28,6 +28,7 @@
           "some": [ "nesting", "id" ]
       },
       "allowChildren": false
-    }]
+    }],
+    "prefer-destructuring": ["error", {"object": true, "array": false}]
   }
 }

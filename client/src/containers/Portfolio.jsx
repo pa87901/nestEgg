@@ -4,15 +4,20 @@ import Blotter from '../components/Blotter';
 import Ticket from '../components/Ticket';
 
 const Portfolio = () => (
-  <Segment.Group className="blotter">
-    <Segment>
-      <Blotter />
-    </Segment>
-    <Segment>
-      <Ticket />
-    </Segment>
-    <Segment>Marmite</Segment>
-  </Segment.Group>
+  <div>
+    <h1>Nest Egg World</h1>
+    <div className="blotter-container">
+      <Segment.Group className="blotter">
+        <Segment>
+          <Blotter />
+        </Segment>
+        <Segment>
+          <Ticket />
+        </Segment>
+        <Segment>Marmite</Segment>
+      </Segment.Group>
+    </div>
+  </div>
 );
 
 export default Portfolio;

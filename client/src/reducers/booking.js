@@ -12,7 +12,7 @@ export default function reducer(
     type: '',
     date: '',
     shares: 0,
-    price: 0
+    costPrice: 0
   }, action) {
   switch (action.type) {
     case SET_BOOKING_SYMBOL:

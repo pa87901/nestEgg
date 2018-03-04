@@ -5,7 +5,7 @@ const holdings = {
     lastPrice: 10,
     currentPrice: 15,
     shares: 100,
-    costBasis: 9
+    costPrice: 9
   },
   holding2: {
     name: "Com 2",
@@ -13,7 +13,7 @@ const holdings = {
     lastPrice: 45,
     currentPrice: 50,
     shares: 100,
-    costBasis: 40
+    costPrice: 40
   },
   holding3: {
     name: "Com 3",
@@ -21,7 +21,7 @@ const holdings = {
     lastPrice: 1500,
     currentPrice: 1000,
     shares: 1,
-    costBasis: 2000
+    costPrice: 2000
   },
 }
 

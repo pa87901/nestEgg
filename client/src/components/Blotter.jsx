@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import Holding from './Holding';
-// import DummyData from './dummyHoldings';
 
 const Blotter = ({ holdings }) => (
   <Table celled>
@@ -15,7 +14,7 @@ const Blotter = ({ holdings }) => (
         <Table.HeaderCell>Current price</Table.HeaderCell>
         <Table.HeaderCell>Change</Table.HeaderCell>
         <Table.HeaderCell>Shares</Table.HeaderCell>
-        <Table.HeaderCell>Cost basis</Table.HeaderCell>
+        <Table.HeaderCell>Cost price</Table.HeaderCell>
         <Table.HeaderCell>Mkt value</Table.HeaderCell>
         <Table.HeaderCell>Gain</Table.HeaderCell>
         <Table.HeaderCell>Gain %</Table.HeaderCell>
