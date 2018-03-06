@@ -13,8 +13,8 @@ export default function reducer(
     ]
   }, action) {
   switch (action.type) {
-    case ADD_BOOKING:
-      return { ...state, symbol: action.payload };
+    case ADD_BOOKING:  // eslint-disable-line no-case-declarations
+      return { ...state, holdings: state.holdings.concat([action.payload]) };
     default:
       return state;
   }

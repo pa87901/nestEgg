@@ -24,7 +24,7 @@ const Blotter = ({ holdings }) => (
     </Table.Header>
 
     <Table.Body>
-      {holdings.map(holding => <Holding key={holding.name} data={holding} />)}
+      {holdings.map(holding => <Holding key={holding.symbol} data={holding} />)}
     </Table.Body>
 
     {/*
