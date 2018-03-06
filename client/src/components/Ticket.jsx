@@ -141,20 +141,20 @@ class Ticket extends Component {
                 </Form.Field>
                 <Form.Input
                   label='Shares'
-                  value={shares === 0 ? undefined : shares}
+                  value={shares === 0 ? '' : shares}
                   placeholder='0'
                   onChange={this.updateShares}
                   width={6} />
                 <Form.Input
                   label='Price'
-                  value={costPrice === 0 ? undefined : costPrice}
+                  value={costPrice === 0 ? '' : costPrice}
                   placeholder='0'
                   onChange={this.updateCostPrice}
                   width={6} />
                 <Button
                   basic
                   onClick={this.submitTicket}
-                  type="button">
+                  type='button'>
                   Submit ticket
                 </Button>
               </Form>
