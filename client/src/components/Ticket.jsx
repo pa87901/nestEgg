@@ -63,22 +63,18 @@ class Ticket extends Component {
   }
 
   updateSymbol(event) {
-    // console.log('symbol:', event.target.value);
     this.setState({ symbol: event.target.value });
   }
 
   updateType(event, { value }) {
-    // console.log('type:', value);
     this.setState({ type: value });
   }
 
   updateDate(event) {
-    // console.log('date:', event.target.value);
     this.setState({ date: event.target.value })
   }
 
   updateShares(event) {
-    // console.log('shares:', event.target.value);
     if (isNaN(event.target.value)) { // eslint-disable-line no-restricted-globals
       window.alert('Enter a number');
     } else {
@@ -87,18 +83,20 @@ class Ticket extends Component {
   }
 
   updateCostPrice(event) {
-    // console.log('costPrice:', this.state.costPrice);
     this.setState({ costPrice: event.target.value });
   }
 
   submitTicket() {
     if (isNaN(this.state.costPrice)) { // eslint-disable-line no-restricted-globals
       window.alert('Cost price must be a valid number');
+    } else {
+      this.setState({ costPrice: Number(this.state.costPrice) });
+      console.log('Ticket submitted:', this.state);
     }
-    console.log('Ticket submitted:', this.state);
   }
 
   render() {
+    const { symbol, type, shares, costPrice } = this.state;
     return (
       <Modal
         id="ticket"
@@ -114,7 +112,7 @@ class Ticket extends Component {
             <Form className="form">
               <Form.Field
                 control="input"
-                value={this.state.symbol}
+                value={symbol}
                 label='Add symbol'
                 placeholder='Symbol'
                 onChange={this.updateSymbol}
@@ -126,7 +124,7 @@ class Ticket extends Component {
                   selection
                   placeholder='Transaction type'
                   options={transaction}
-                  value={this.state.type}
+                  value={type}
                   onChange={this.updateType}/>
               </Form.Field>
               <Form.Field width={6} >
@@ -134,17 +132,18 @@ class Ticket extends Component {
                 <input
                   id='date'
                   type='date'
-                  placeholder={this.state.date}
                   onChange={this.updateDate} />
               </Form.Field>
               <Form.Input
                 label='Shares'
-                value={this.state.shares === 0 ? null : this.state.shares}
+                value={shares === 0 ? undefined : shares}
+                placeholder='0'
                 onChange={this.updateShares}
                 width={6} />
               <Form.Input
                 label='Price'
-                value={this.state.costPrice === 0 ? null : this.state.costPrice}
+                value={costPrice === 0 ? undefined : costPrice}
+                placeholder='0'
                 onChange={this.updateCostPrice}
                 width={6} />
               <Button

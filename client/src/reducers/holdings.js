@@ -2,7 +2,7 @@ import {
   ADD_BOOKING,
   // REMOVE_BOOKING
 } from '../actions/holdingActions';
-import DummyData from '../components/dummyHoldings';
+import DummyData from './dummyHoldings';
 
 export default function reducer(
   state = {
