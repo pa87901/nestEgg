@@ -18,7 +18,7 @@ const webpackDevConfig = require('../webpack.config');
 
 // const baseTemplate = fs.readFileSync(html); // readFileSync is going to read index.html and will pause until it finishes reading. It will only be read once when you start up your server.
 // const template = _.template(baseTemplate) // template is a function that when invoked takes in body and gives back our markup inside index.html
-
+const db = require('../database/config');
 
 const app = express();
 app.use(bodyParser.json());
