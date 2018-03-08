@@ -4,7 +4,7 @@ const schema = require('./schema');
 const connection = {
   host: 'localhost',
   port: 5432,
-  database: 'nest-egg'
+  database: 'nestegg'
 };
 
 const url = process.env.DATABASE_URL || connection;

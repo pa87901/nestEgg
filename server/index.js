@@ -13,7 +13,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
 const webpackDevConfig = require('../webpack.config');
-// const db = require('../database/config');
+const db = require('../database/config');
 
 const app = express();
 app.use(bodyParser.json());
