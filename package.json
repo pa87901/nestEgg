@@ -8,7 +8,8 @@
     "client-dev": "webpack -d --config ./webpack.dev.config.js --watch & webpack-dev-server --config ./webpack.dev.config.js",
     "server-dev": "webpack -d --config ./webpack.dev.config.js & nodemon server/index.js",
     "start": "NODE_ENV=server nodemon server/index.js",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "seedDb": "node ./database/seedData.js"
   },
   "repository": {
     "type": "git",
