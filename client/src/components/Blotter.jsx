@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
-import { Table } from 'semantic-ui-react';
+import { Table, Checkbox } from 'semantic-ui-react';
 import Holding from './Holding';
 
 const Blotter = ({ holdings }) => (
   <Table celled>
     <Table.Header>
       <Table.Row>
+        <Table.HeaderCell><Checkbox /></Table.HeaderCell>
         <Table.HeaderCell>Name</Table.HeaderCell>
         <Table.HeaderCell>Symbol</Table.HeaderCell>
         <Table.HeaderCell>Last price</Table.HeaderCell>

@@ -1,18 +1,22 @@
 import React from 'react';
-import { Table } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Table, Checkbox } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { selectHolding } from '../actions/holdingActions';
 
-const Holding = ({ data }) => {
-  const { name, symbol, lastprice, currentprice, shares, costprice } = data;
+const Holding = ({ data, handleSelectHolding }) => {
+  const { id, name, symbol, lastprice, currentprice, shares, costprice } = data;
   const calculatePriceChange = (lastP, currentP) => currentP - lastP;
   const calculateMktVal = (currentP, units) => currentP * units;
   const calculateGain = (currentP, units, cost) => calculatePriceChange(cost, currentP) * units;
   const calculateGainPercent = (currentP, units, cost) => Math.round(calculateGain(currentP, units, cost) / (cost * units) * 100);
   const calculateDayGain = (currentP, lastP, units) => calculatePriceChange(lastP, currentP) * units;
   const calculateDayGainPercent = (currentP, lastP) => (calculatePriceChange(lastP, currentP) / lastP).toFixed(2) * 100;
+  const select = () => { handleSelectHolding(id) };
 
   return (
     <Table.Row>
+      <Table.Cell><Checkbox onClick={select} /></Table.Cell>
       <Table.Cell>{name}</Table.Cell>
       <Table.Cell>{symbol}</Table.Cell>
       <Table.Cell>{lastprice}</Table.Cell>
@@ -30,8 +34,15 @@ const Holding = ({ data }) => {
 };
 
 Holding.propTypes = {
-  data: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
+  data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  handleSelectHolding: PropTypes.func.isRequired
 };
 
+const mapDispatchToProps = dispatch => ({
+  handleSelectHolding(holdingId) {
+    dispatch(selectHolding(holdingId));
+  }
+});
 
-export default Holding;
+
+export default connect(null, mapDispatchToProps)(Holding);
