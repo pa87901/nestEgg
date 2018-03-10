@@ -13,7 +13,8 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
 const webpackDevConfig = require('../webpack.config');
-const db = require('../database/config');
+const db = require('../database');
+const HoldingsController = require('./controllers/holdings.js');
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,6 +25,8 @@ app.use(webpackDevMiddleware(webpackDevCompiler));
 app.use(webpackHotMiddleware(webpackDevCompiler));
 app.use(express.static(`${__dirname}/../client/dist`));
 
+
+app.use('/api/holdings', HoldingsController);
 
 app.use((req, res) => {
   console.log('req.url', req.url);
@@ -50,6 +53,7 @@ app.use((req, res) => {
   res.write(template({body}));
   res.end();
 });
+
 
 
 app.use('*', (req, res) => {

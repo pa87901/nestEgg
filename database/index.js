@@ -22,4 +22,4 @@ loadDb(db)
     console.error('Error connecting to database:', err);
   });
 
-module.exports = { db };
+module.exports = { db, resetDb };
