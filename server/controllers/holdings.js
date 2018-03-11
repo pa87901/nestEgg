@@ -14,4 +14,8 @@ router.get('/', (req, res) => {
   });
 });
 
+router.delete('/', (req, res) => {
+  res.status(418).send('Server got your message');
+});
+
 module.exports = router;

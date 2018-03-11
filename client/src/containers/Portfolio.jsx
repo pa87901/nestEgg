@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Button } from 'semantic-ui-react';
 import 'isomorphic-fetch';
 import Blotter from '../components/Blotter';
 import Ticket from '../components/Ticket';
@@ -9,6 +9,11 @@ import { setHoldings } from '../actions/holdingActions';
 
 
 class Portfolio extends Component {
+  constructor() {
+    super();
+    this.delete = this.delete.bind(this);
+  }
+
   componentWillMount() {
     const { handleSetHoldings } = this.props;
     fetch('http://localhost:3000/api/holdings', { method: 'get' })
@@ -21,7 +26,31 @@ class Portfolio extends Component {
     });
   }
 
+  delete() {
+    const { selected } = this.props;
+    const payload = { selected };
+    const headers = {
+      'accept': 'application/json, text/plain, */*',
+      'content-type': 'application/json'
+    }
+    const init = {
+      method: 'DELETE',
+      headers,
+      mode: 'cors',
+      body: JSON.stringify(payload),
+      json: true
+    }
+    fetch('/api/holdings/', init)
+    .then(res => {
+      console.log('Response back:', res);
+    })
+    .catch(err => {
+      console.error('Error sending ids to delete:', err);
+    });
+  }
+
   render() {
+    const { selected } = this.props;
     return (
       <div>
         <h1>Nest Egg World</h1>
@@ -30,7 +59,13 @@ class Portfolio extends Component {
             <Segment>
               <Blotter />
             </Segment>
-            <Segment>
+            <Segment className="portfolioButtonRow" >
+              <Button
+                basic
+                color={selected.length ? "red" : null}
+                onClick={this.delete}>
+                  Delete
+              </Button>
               <Ticket />
             </Segment>
             <Segment>Marmite</Segment>
@@ -42,8 +77,13 @@ class Portfolio extends Component {
 }
 
 Portfolio.propTypes = {
-  handleSetHoldings: PropTypes.func.isRequired
+  handleSetHoldings: PropTypes.func.isRequired,
+  selected: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
 }
+
+const mapStateToProps = state => ({
+  selected: state.holdings.selected
+});
 
 const mapDispatchToProps = dispatch => ({
   handleSetHoldings(holdings) {
@@ -51,4 +91,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(null, mapDispatchToProps)(Portfolio);
+export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);
