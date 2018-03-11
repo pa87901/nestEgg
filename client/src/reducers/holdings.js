@@ -2,6 +2,7 @@ import {
   SET_HOLDINGS,
   ADD_BOOKING,
   SELECT_HOLDING,
+  SELECT_ALL_HOLDINGS
   // REMOVE_BOOKING
 } from '../actions/holdingActions';
 
@@ -16,20 +17,27 @@ export default function reducer(
     case ADD_BOOKING:  // eslint-disable-line no-case-declarations
       return { ...state, holdings: state.holdings.concat([action.payload]) };
     case SELECT_HOLDING: {
-      // Check if the selected state [] already contains the payload id
       const selectedIds = state.selected;
       const index = selectedIds.indexOf(action.payload);
-      // If no
       if (index < 0) {
-        // Add to the selected []
         return { ...state, selected: state.selected.concat([action.payload]) };
       }
-      // If yes
-      // Remove from the selected []
       selectedIds.splice(index, 1);
-      return { ...state, selected: selectedIds };
+      const selected2 = selectedIds.slice();
+      return { ...state, selected: selected2 };
     }
-      // return { ...state, selected: state.selected.concat([action.payload]) };
+    case SELECT_ALL_HOLDINGS: {
+      // Traverse the holdings [] to get all the ids
+      if (state.holdings.length > state.selected.length) {
+        const ids = [];
+        state.holdings.forEach(holding => {
+          ids.push(holding.id);
+        });
+        return { ...state, selected: ids };
+      }
+      // Deselect all holdings
+      return { ...state, selected: [] };
+    }
     default:
       return state;
   }

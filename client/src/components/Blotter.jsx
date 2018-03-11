@@ -3,12 +3,17 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import { Table, Checkbox } from 'semantic-ui-react';
 import Holding from './Holding';
+import { selectAllHoldings } from '../actions/holdingActions';
 
-const Blotter = ({ holdings }) => (
+const Blotter = ({ holdings, handleSelectAllHoldings, selected }) => (
   <Table celled>
     <Table.Header>
       <Table.Row>
-        <Table.HeaderCell><Checkbox /></Table.HeaderCell>
+        <Table.HeaderCell>
+          <Checkbox
+            onClick={handleSelectAllHoldings}
+            checked={holdings.length === selected.length}/>
+        </Table.HeaderCell>
         <Table.HeaderCell>Name</Table.HeaderCell>
         <Table.HeaderCell>Symbol</Table.HeaderCell>
         <Table.HeaderCell>Last price</Table.HeaderCell>
@@ -36,11 +41,20 @@ const Blotter = ({ holdings }) => (
 );
 
 Blotter.propTypes = {
-  holdings: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
+  holdings: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  handleSelectAllHoldings: PropTypes.func.isRequired,
+  selected: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = state => ({
-  holdings: state.holdings.holdings
+  holdings: state.holdings.holdings,
+  selected: state.holdings.selected
 });
 
-export default connect(mapStateToProps, null)(Blotter);
+const mapDispatchToProps = dispatch => ({
+  handleSelectAllHoldings() {
+    dispatch(selectAllHoldings());
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Blotter);
