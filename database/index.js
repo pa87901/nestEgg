@@ -11,15 +11,15 @@ const url = process.env.DATABASE_URL || connection;
 
 const db = pgp(url);
 
-const loadDb = db => schema(db);
+const loadDb = database => schema(database);
 const resetDb = () => db.none('TRUNCATE holdings RESTART IDENTITY CASCADE');
 
 loadDb(db)
   .then(() => {
-    console.log('Successfully connected to database!');
+    console.log('Successfully connected to database!'); // eslint-disable-line no-console
   })
   .catch(err => {
-    console.error('Error connecting to database:', err);
+    console.error('Error connecting to database:', err); // eslint-disable-line no-console
   });
 
 module.exports = { db, resetDb };

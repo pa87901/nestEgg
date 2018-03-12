@@ -2,8 +2,8 @@ import {
   SET_HOLDINGS,
   ADD_BOOKING,
   SELECT_HOLDING,
-  SELECT_ALL_HOLDINGS
-  // REMOVE_BOOKING
+  SELECT_ALL_HOLDINGS,
+  REMOVE_BOOKINGS
 } from '../actions/holdingActions';
 
 export default function reducer(
@@ -17,17 +17,15 @@ export default function reducer(
     case ADD_BOOKING:  // eslint-disable-line no-case-declarations
       return { ...state, holdings: state.holdings.concat([action.payload]) };
     case SELECT_HOLDING: {
-      const selectedIds = state.selected;
+      const selectedIds = state.selected.slice();
       const index = selectedIds.indexOf(action.payload);
       if (index < 0) {
         return { ...state, selected: state.selected.concat([action.payload]) };
       }
       selectedIds.splice(index, 1);
-      const selected2 = selectedIds.slice();
-      return { ...state, selected: selected2 };
+      return { ...state, selected: selectedIds };
     }
     case SELECT_ALL_HOLDINGS: {
-      // Traverse the holdings [] to get all the ids
       if (state.holdings.length > state.selected.length) {
         const ids = [];
         state.holdings.forEach(holding => {
@@ -35,8 +33,24 @@ export default function reducer(
         });
         return { ...state, selected: ids };
       }
-      // Deselect all holdings
       return { ...state, selected: [] };
+    }
+    case REMOVE_BOOKINGS: {
+      const remainingHoldings = state.holdings.slice();
+      const holdingsToDelete = action.payload;
+      const idsToDelete = holdingsToDelete.map(holding => holding.id);
+      const ids = remainingHoldings.map(holding => holding.id);
+      idsToDelete.forEach(id => {
+        const index = ids.indexOf(id);
+        remainingHoldings[index] = null;
+      });
+      const updatedHoldings = [];
+      remainingHoldings.forEach(holding => {
+        if (holding) {
+          updatedHoldings.push(holding);
+        }
+      })
+      return { ...state, holdings: updatedHoldings, selected: []}
     }
     default:
       return state;

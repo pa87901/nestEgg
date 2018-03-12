@@ -5,7 +5,7 @@ import { Segment, Button } from 'semantic-ui-react';
 import 'isomorphic-fetch';
 import Blotter from '../components/Blotter';
 import Ticket from '../components/Ticket';
-import { setHoldings } from '../actions/holdingActions';
+import { setHoldings, removeBookings } from '../actions/holdingActions';
 
 
 class Portfolio extends Component {
@@ -27,7 +27,7 @@ class Portfolio extends Component {
   }
 
   delete() {
-    const { selected } = this.props;
+    const { selected, handleRemoveBookings } = this.props;
     const payload = { selected };
     const headers = {
       'accept': 'application/json, text/plain, */*',
@@ -41,11 +41,12 @@ class Portfolio extends Component {
       json: true
     }
     fetch('/api/holdings/', init)
-    .then(res => {
-      console.log('Response back:', res);
+    .then(res => res.json())
+    .then(resJSON => {
+      handleRemoveBookings(resJSON.rows);
     })
     .catch(err => {
-      console.error('Error sending ids to delete:', err);
+      console.error('Error sending ids to delete:', err); // eslint-disable-line no-console
     });
   }
 
@@ -78,7 +79,8 @@ class Portfolio extends Component {
 
 Portfolio.propTypes = {
   handleSetHoldings: PropTypes.func.isRequired,
-  selected: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
+  selected: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  handleRemoveBookings: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -88,6 +90,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleSetHoldings(holdings) {
     dispatch(setHoldings(holdings))
+  },
+  handleRemoveBookings(holdings) {
+    dispatch(removeBookings(holdings));
   }
 });
 

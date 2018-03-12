@@ -16,7 +16,11 @@ const Holding = ({ data, handleSelectHolding, selected }) => {
 
   return (
     <Table.Row>
-      <Table.Cell><Checkbox onClick={select} checked={selected.indexOf(id) > -1}/></Table.Cell>
+      <Table.Cell>
+        <Checkbox
+          onClick={select}
+          checked={selected.indexOf(id) > -1} />
+      </Table.Cell>
       <Table.Cell>{name}</Table.Cell>
       <Table.Cell>{symbol}</Table.Cell>
       <Table.Cell>{lastprice}</Table.Cell>

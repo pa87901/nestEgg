@@ -9,7 +9,7 @@ db.query('CREATE TABLE IF NOT EXISTS holdings(\
   costPrice INTEGER NOT NULL\
   );')
   .catch(err => {
-    console.error('Error creating tables in nest-egg database:', err);
+    console.error('Error creating tables in nest-egg database:', err); // eslint-disable-line no-console
   })
 );
 
