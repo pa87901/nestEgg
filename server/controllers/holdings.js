@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
     res.status(201).send(response);
   })
   .catch(err => {
-    console.error('Error adding trade ticket to db.', err);
+    console.error('Error adding trade ticket to db.', err); // eslint-disable-line no-console
   });
 });
 

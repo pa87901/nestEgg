@@ -29,7 +29,7 @@ app.use(express.static(`${__dirname}/../client/dist`));
 app.use('/api/holdings', HoldingsController);
 
 app.use((req, res) => {
-  console.log('req.url', req.url);
+  // console.log('req.url', req.url);
   const context = {};
   const body = renderToString(createElement(App));
   if (context.url) {
