@@ -32,14 +32,14 @@ class Portfolio extends Component {
     const headers = {
       'accept': 'application/json, text/plain, */*',
       'content-type': 'application/json'
-    }
+    };
     const init = {
       method: 'DELETE',
       headers,
       mode: 'cors',
       body: JSON.stringify(payload),
       json: true
-    }
+    };
     fetch('/api/holdings/', init)
     .then(res => res.json())
     .then(resJSON => {

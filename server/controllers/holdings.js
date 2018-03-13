@@ -17,11 +17,21 @@ router.get('/', (req, res) => {
 router.delete('/', (req, res) => {
   Holdings.deleteHoldings(req.body.selected)
   .then(response => {
-    res.status(201).send(response);
+    res.status(303).send(response);
   })
   .catch(err => {
     console.error('Unable to delete holdings from db.', err); // eslint-disable-line no-console
     res.status(500).send('Unable to delete holdings from db.');
+  });
+});
+
+router.post('/', (req, res) => {
+  Holdings.addTrade(req.body)
+  .then(response => {
+    res.status(201).send(response);
+  })
+  .catch(err => {
+    console.error('Error adding trade ticket to db.', err);
   });
 });
 

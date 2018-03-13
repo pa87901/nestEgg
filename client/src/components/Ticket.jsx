@@ -56,32 +56,35 @@ class Ticket extends Component {
   }
 
   submitTicket() {
+    const { symbol, type, date, shares, costPrice } = this.state;
     const { handleSubmitTicket } = this.props;
-    if (isNaN(this.state.costPrice)) { // eslint-disable-line no-restricted-globals
-      window.alert('Cost price must be a valid number');
-    } else {
-      this.setState({ costPrice: Number(this.state.costPrice) });
-      // Add these keys as they are not part of the component state. The completed object will be sent to the holdings reducer.
-      const newTicket = {
-        symbol: this.state.symbol,
-        type: this.state.type,
-        date: this.state.date,
-        shares: this.state.shares,
-        costPrice: this.state.costPrice
-      }
-      newTicket.name = 'Dummy name';
-      newTicket.lastPrice = this.state.costPrice;
-      newTicket.currentPrice = this.state.costPrice;
-      handleSubmitTicket(newTicket);
-      this.setState({
-        symbol: '',
-        type: '',
-        date: '',
-        shares: 0,
-        costPrice: 0,
-        modalOpen: false
-      });
-    }
+    const payload = {
+      symbol,
+      type,
+      date,
+      shares,
+      costPrice
+    };
+    const headers = {
+      'accept': 'application/json, text/plain, */*',
+      'content-type': 'application/json'
+    };
+    const init = {
+      method: 'POST',
+      headers,
+      mode: 'cors',
+      body: JSON.stringify(payload),
+      json: true
+    };
+    fetch('/api/holdings/', init)
+    .then(res => res.json())
+    .then(resJSON => {
+      handleSubmitTicket(resJSON);
+    })
+    .catch(err => {
+      console.error('Cound not add trade to the backend:', err); // eslint-disable-line no-console
+    });
+    this.setState({ modalOpen: false });
   }
 
   modalOpen() {
@@ -93,7 +96,7 @@ class Ticket extends Component {
   }
 
   render() {
-    const { symbol, type, shares, costPrice } = this.state;
+    const { symbol, type, date, shares, costPrice } = this.state;
     return (
       <div>
         <Modal
@@ -137,6 +140,7 @@ class Ticket extends Component {
                   <input
                     id='date'
                     type='date'
+                    value={date}
                     onChange={this.updateDate} />
                 </Form.Field>
                 <Form.Input
@@ -178,3 +182,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(null, mapDispatchToProps)(Ticket);
+
+// export default Ticket;
