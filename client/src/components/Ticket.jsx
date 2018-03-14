@@ -52,39 +52,54 @@ class Ticket extends Component {
   }
 
   updateCostPrice(event) {
-    this.setState({ costPrice: Number(event.target.value) });
+    if (isNaN(event.target.value) && event.target.value[event.target.value.length - 1] !== '.' ) { // eslint-disable-line no-restricted-globals
+      window.alert('Enter a number');
+    } else {
+      this.setState({ costPrice: event.target.value });
+    }
   }
 
   submitTicket() {
     const { symbol, type, date, shares, costPrice } = this.state;
     const { handleSubmitTicket } = this.props;
-    const payload = {
-      symbol,
-      type,
-      date,
-      shares,
-      costPrice
-    };
-    const headers = {
-      'accept': 'application/json, text/plain, */*',
-      'content-type': 'application/json'
-    };
-    const init = {
-      method: 'POST',
-      headers,
-      mode: 'cors',
-      body: JSON.stringify(payload),
-      json: true
-    };
-    fetch('/api/holdings/', init)
-    .then(res => res.json())
-    .then(resJSON => {
-      handleSubmitTicket(resJSON);
-    })
-    .catch(err => {
-      console.error('Cound not add trade to the backend:', err); // eslint-disable-line no-console
-    });
-    this.setState({ modalOpen: false });
+    if (symbol.length < 1 || (type !== 'buy' && type !== 'sell') || date.length < 1 || shares < 1 || costPrice < 0) {
+      window.alert('Not all trade details entered correctly.');
+    } else {
+      const payload = {
+        symbol,
+        type,
+        date,
+        shares,
+        costPrice
+      };
+      const headers = {
+        'accept': 'application/json, text/plain, */*',
+        'content-type': 'application/json'
+      };
+      const init = {
+        method: 'POST',
+        headers,
+        mode: 'cors',
+        body: JSON.stringify(payload),
+        json: true
+      };
+      fetch('/api/holdings/', init)
+      .then(res => res.json())
+      .then(resJSON => {
+        handleSubmitTicket(resJSON);
+        this.setState({
+          symbol: '',
+          type: '',
+          date: '',
+          shares: 0,
+          costPrice: 0
+        });
+      })
+      .catch(err => {
+        console.error('Cound not add trade to the backend:', err); // eslint-disable-line no-console
+      });
+      this.setState({ modalOpen: false });
+    }
   }
 
   modalOpen() {
