@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const Holdings = require('../models/holdings.js');
+const Holdings = require('../models/holdings');
 
 router.get('/', (req, res) => {
   Holdings.getAll()
@@ -18,6 +18,7 @@ router.delete('/', (req, res) => {
   Holdings.deleteHoldings(req.body.selected)
   .then(response => {
     res.status(303).send(response);
+    // Placeholder to delete transactions associated with this symbol
   })
   .catch(err => {
     console.error('Unable to delete holdings from db.', err); // eslint-disable-line no-console

@@ -5,7 +5,10 @@ const holdings = [
     lastprice: 10,
     currentprice: 15,
     shares: 100,
-    costprice: 9
+    costprice: 9,
+    transactiontype: 'buy',
+    price: 9,
+    date: '2018-01-02'
   },
   {
     name: "Com 2",
@@ -13,7 +16,10 @@ const holdings = [
     lastprice: 45,
     currentprice: 50,
     shares: 100,
-    costprice: 40
+    costprice: 40,
+    transactiontype: 'buy',
+    price: 40,
+    date: '2018-02-05'
   },
   {
     name: "Com 3",
@@ -21,7 +27,10 @@ const holdings = [
     lastprice: 1500,
     currentprice: 1000,
     shares: 1,
-    costprice: 2000
+    costprice: 2000,
+    transactiontype: 'buy',
+    price: 2000,
+    date: '2018-03-12'
   }
 ];
 

@@ -3,8 +3,7 @@
 require('babel-register'); // everything in this file itself will not be transpiled; but everything that it requires will be run through babel
 const express = require('express');
 const bodyParser = require('body-parser');
-const PORT = process.env.PORT || 3000;
-const path = require('path');
+// const path = require('path');
 const { createElement } = require('react');
 const { renderToString } = require('react-dom/server');
 const _ = require('lodash');
@@ -14,7 +13,10 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
 const webpackDevConfig = require('../webpack.config');
 const db = require('../database');
-const HoldingsController = require('./controllers/holdings.js');
+const HoldingsController = require('./controllers/holdings');
+const TransactionsController = require('./controllers/transactions');
+
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(bodyParser.json());
@@ -27,6 +29,7 @@ app.use(express.static(`${__dirname}/../client/dist`));
 
 
 app.use('/api/holdings', HoldingsController);
+app.use('/api/transactions', TransactionsController);
 
 app.use((req, res) => {
   // console.log('req.url', req.url);
