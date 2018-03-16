@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
 import { Modal, Button, Icon, Form, Dropdown } from 'semantic-ui-react';
-import { addBooking } from '../actions/holdingActions';
+// import { addBooking } from '../actions/holdingActions';
 
 const transaction = [
   { text: 'Buy', value: 'buy' },
@@ -18,7 +18,7 @@ class Ticket extends Component {
       type: '',
       date: '',
       shares: 0,
-      costPrice: 0,
+      price: 0,
       modalOpen: false
     };
     this.updateSymbol = this.updateSymbol.bind(this);
@@ -55,14 +55,14 @@ class Ticket extends Component {
     if (isNaN(event.target.value) && event.target.value[event.target.value.length - 1] !== '.' ) { // eslint-disable-line no-restricted-globals
       window.alert('Enter a number');
     } else {
-      this.setState({ costPrice: event.target.value });
+      this.setState({ price: event.target.value });
     }
   }
 
   submitTicket() {
-    const { symbol, type, date, shares, costPrice } = this.state;
-    const { handleSubmitTicket } = this.props;
-    if (symbol.length < 1 || (type !== 'buy' && type !== 'sell') || date.length < 1 || shares < 1 || costPrice < 0) {
+    const { symbol, type, date, shares, price } = this.state;
+    // const { handleSubmitTicket } = this.props;
+    if (symbol.length < 1 || (type !== 'buy' && type !== 'sell') || date.length < 1 || shares < 1 || price < 0) {
       window.alert('Not all trade details entered correctly.');
     } else {
       const payload = {
@@ -70,7 +70,7 @@ class Ticket extends Component {
         type,
         date,
         shares,
-        costPrice
+        price
       };
       const headers = {
         'accept': 'application/json, text/plain, */*',
@@ -83,16 +83,16 @@ class Ticket extends Component {
         body: JSON.stringify(payload),
         json: true
       };
-      fetch('/api/holdings/', init)
+      fetch('/api/transactions/', init)
       .then(res => res.json())
-      .then(resJSON => {
-        handleSubmitTicket(resJSON);
+      .then(() => {
+        // handleSubmitTicket(resJSON);
         this.setState({
           symbol: '',
           type: '',
           date: '',
           shares: 0,
-          costPrice: 0
+          price: 0
         });
       })
       .catch(err => {
@@ -185,7 +185,7 @@ class Ticket extends Component {
   }
 }
 
-
+/*
 Ticket.propTypes = {
   handleSubmitTicket: PropTypes.func.isRequired
 };
@@ -197,3 +197,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(null, mapDispatchToProps)(Ticket);
+*/
+
+export default Ticket;

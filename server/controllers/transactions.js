@@ -26,6 +26,7 @@ router.delete('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  console.log('Transaction body:', req.body);
   Transactions.addTransaction(req.body)
   .then(response => {
     res.status(201).send(response);
