@@ -1,6 +1,6 @@
 import {
   SET_HOLDINGS,
-  ADD_BOOKING,
+  // ADD_BOOKING,
   SELECT_HOLDING,
   SELECT_ALL_HOLDINGS,
   REMOVE_BOOKINGS
@@ -14,8 +14,8 @@ export default function reducer(
   switch (action.type) {
     case SET_HOLDINGS:
       return { ...state, holdings: action.payload };
-    case ADD_BOOKING:  // eslint-disable-line no-case-declarations
-      return { ...state, holdings: state.holdings.concat([action.payload]) };
+    // case ADD_BOOKING:  // eslint-disable-line no-case-declarations
+    //   return { ...state, holdings: state.holdings.concat([action.payload]) };
     case SELECT_HOLDING: {
       const selectedIds = state.selected.slice();
       const index = selectedIds.indexOf(action.payload);
