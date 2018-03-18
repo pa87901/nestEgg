@@ -2,6 +2,8 @@ const { db } = require('../../database');
 
 const getAll = () => db.many('SELECT * FROM holdings');
 
+const getOne = symbol => db.one('SELECT * FROM holdings WHERE symbol = $1', symbol);
+
 const deleteHoldings = ids => {
   let numberToDelete = ids.length;
   let string = '(';
@@ -30,6 +32,7 @@ const addTrade = ticket => {
 
 module.exports = {
   getAll,
+  getOne,
   deleteHoldings,
   addTrade
 };

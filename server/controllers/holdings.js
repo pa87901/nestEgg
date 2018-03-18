@@ -14,6 +14,17 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/:symbol', (req, res) => {
+  const symbol = req.params.symbol;
+  Holdings.getOne(symbol)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(err => {
+    res.status(500).send(`Unable to find a holding with symbol ${symbol}.`);
+  });
+});
+
 router.delete('/', (req, res) => {
   Holdings.deleteHoldings(req.body.selected)
   .then(response => {
