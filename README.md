@@ -10,7 +10,8 @@ It will record positions and trades, calculate P&L and display performance over 
 * The blotter will connect to IEX's API via Nest Egg's server to request stock prices at the start of each day.
 * There will be a worker on the back end that will run every minute to fetch updated prices from IEX.
 * An authentication service may be used to manage users and authentication.
-* Many users can create an account on Nest Egg and store their equity portfolios.
+* Each user account will be able to store one or many portfolios.
+* Many users will be able to create an account on Nest Egg and store their equity portfolios.
 
 ##
 Stay tuned ...
