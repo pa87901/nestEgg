@@ -19,20 +19,35 @@ const deleteHoldings = ids => {
   }
   string = `${string})`;
   return db.result(`DELETE FROM holdings WHERE id IN ${string} RETURNING *`, ids);
-}
+};
 
 const addTrade = ticket => {
-  const { symbol, type, costPrice, } = ticket;
+  const { symbol, type, price } = ticket;
   let { shares } = ticket;
-  shares = type === 'buy' ? shares : -shares;
+  shares = type === 'Buy' ? shares : -shares;
   return db.one('INSERT INTO holdings (name, symbol, lastprice, currentprice, shares, costprice) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-    [symbol, symbol, costPrice, costPrice, shares, costPrice]
+    [symbol, symbol, price, price, shares, price]
   );
+};
+
+const updateExistingHolding = (symbol) => {
+  console.log('Given symbol to look up:', symbol);
+  // Get the holding from the db.
+  return getOne(symbol)
+  // Holding symbol exists in the db
+  .then(response => {
+    console.log('getting holding:', response);
+    // Placeholder to create a psql query to update the existing holding
+    return response;
+  })
+  // No such holding in the db currently
+  .catch(err => err);
 }
 
 module.exports = {
   getAll,
   getOne,
   deleteHoldings,
-  addTrade
+  addTrade,
+  updateExistingHolding
 };

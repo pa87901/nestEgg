@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const Transactions = require('../models/transactions');
+const Holdings = require('../models/holdings');
 
 router.get('/', (req, res) => {
   Transactions.getAll()
@@ -27,10 +28,25 @@ router.delete('/', (req, res) => {
 
 router.post('/', (req, res) => {
   console.log('Transaction body:', req.body);
-  Transactions.addTransaction(req.body)
+  const payload = req.body;
+  Transactions.addTransaction(payload)
   .then(response => {
-    res.status(201).send(response);
-    // Placeholder to add trade to overal holdings for this symbol
+    console.log('new trade:', response);
+    const { symbol } = response;
+    return Holdings.updateExistingHolding(symbol)
+  })
+  .then(response2 => {
+    if (!response2) {
+      console.log('Time to add a brand new holding', payload);
+      // Placeholder to add a dummy lastprice
+      return Holdings.addTrade(payload);
+    }
+    console.log('existing trade:', response2);
+    return response2;
+  })
+  .then(res3 => {
+    console.log('res3:', res3);
+    res.status(201).send(res3);
   })
   .catch(err => {
     console.error('Error adding trade ticket to db.', err); // eslint-disable-line no-console
