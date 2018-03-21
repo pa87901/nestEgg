@@ -12,8 +12,17 @@ const addTransaction = ticket => {
   );
 };
 
+// This will be called at the same time as addTransaction to affect an existing symbol holding.
+const addExistingHolding = ticket => ticket;
+
+// This will be called at the same time as addTransaction to add a new symbol holding.
+const addNewHolding = ticket => ticket;
+
+
 module.exports = {
   getAll,
   deleteTransactions,
-  addTransaction
+  addTransaction,
+  addExistingHolding,
+  addNewHolding
 };

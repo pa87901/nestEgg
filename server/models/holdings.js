@@ -21,6 +21,8 @@ const deleteHoldings = ids => {
   return db.result(`DELETE FROM holdings WHERE id IN ${string} RETURNING *`, ids);
 };
 
+/*
+// This method is obsolete as the Holding controller will not itself increase or decrease holdings. This will happen when transactions are entered.
 const addTrade = ticket => {
   const { symbol, type, price } = ticket;
   let { shares } = ticket;
@@ -29,6 +31,7 @@ const addTrade = ticket => {
     [symbol, symbol, price, price, shares, price]
   );
 };
+*/
 
 const updateExistingHolding = (symbol) => {
   console.log('Given symbol to look up:', symbol);
@@ -48,6 +51,6 @@ module.exports = {
   getAll,
   getOne,
   deleteHoldings,
-  addTrade,
+  // addTrade,
   updateExistingHolding
 };

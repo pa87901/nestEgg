@@ -37,6 +37,9 @@ router.delete('/', (req, res) => {
   });
 });
 
+/*
+// There will no longer be a direct route to Holdings from the client to post a new trade.
+// New trades go through the Transacions route.
 router.post('/', (req, res) => {
   Holdings.addTrade(req.body)
   .then(response => {
@@ -46,5 +49,6 @@ router.post('/', (req, res) => {
     console.error('Error adding trade ticket to db.', err); // eslint-disable-line no-console
   });
 });
+*/
 
 module.exports = router;
