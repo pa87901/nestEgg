@@ -2,7 +2,17 @@ const { db } = require('../../database');
 
 const getAll = () => db.many('SELECT * FROM holdings');
 
-const getOne = symbol => db.one('SELECT * FROM holdings WHERE symbol = $1', symbol);
+const getOne = symbol => {
+  return db.one('SELECT * FROM holdings WHERE symbol = $1', symbol)
+  .then(existingHolding => {
+    console.log('Symbol exists in the holdings table already.')
+    return existingHolding;
+  })
+  .catch(err => {
+    console.log('Symbol does not exist in the holdings table already.');
+    return null;
+  })
+};
 
 const deleteHoldings = ids => {
   let numberToDelete = ids.length;
@@ -33,24 +43,21 @@ const addTrade = ticket => {
 };
 */
 
-const updateExistingHolding = (symbol) => {
-  console.log('Given symbol to look up:', symbol);
-  // Get the holding from the db.
-  return getOne(symbol)
-  // Holding symbol exists in the db
-  .then(response => {
-    console.log('getting holding:', response);
-    // Placeholder to create a psql query to update the existing holding
-    return response;
-  })
-  // No such holding in the db currently
-  .catch(err => err);
-}
+const updateExistingHolding = ticket => {
+  console.log(`This is the ticket to update holding ${ticket.symbol}:`, ticket);
+  return ticket;
+};
+
+const addNewHolding = ticket => {
+  console.log('Received ticket to enter brand new holding: ', ticket);
+  return ticket;
+};
 
 module.exports = {
   getAll,
   getOne,
   deleteHoldings,
   // addTrade,
-  updateExistingHolding
+  updateExistingHolding,
+  addNewHolding
 };

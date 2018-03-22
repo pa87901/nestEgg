@@ -6,7 +6,7 @@ const holdings = [
     currentprice: 15,
     shares: 100,
     costprice: 9,
-    transactiontype: 'buy',
+    transactiontype: 'Buy',
     price: 9,
     date: '2018-01-02'
   },
@@ -17,7 +17,7 @@ const holdings = [
     currentprice: 50,
     shares: 100,
     costprice: 40,
-    transactiontype: 'buy',
+    transactiontype: 'Buy',
     price: 40,
     date: '2018-02-05'
   },
@@ -28,7 +28,7 @@ const holdings = [
     currentprice: 1000,
     shares: 1,
     costprice: 2000,
-    transactiontype: 'buy',
+    transactiontype: 'Buy',
     price: 2000,
     date: '2018-03-12'
   }
