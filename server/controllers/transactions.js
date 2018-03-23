@@ -28,38 +28,25 @@ router.delete('/', (req, res) => {
 
 router.post('/', (req, res) => {
   console.log('Transaction body:', req.body);
-  const { symbol } = req.body;
+  const payload = req.body;
+  const { symbol } = payload;
   // Check if the symbol on the ticket exists in the holdings table already
   Holdings.getOne(symbol)
   .then(holdingWithSymbol => {
     if (!holdingWithSymbol) {
       console.log(`Holding with symbol ${symbol} does not exist. To call the addNewHolding model method.`);
-      return Holdings.addNewHolding(req.body);
+      return Holdings.addNewHolding(payload);
     }
     console.log(`Holding with symbol ${symbol} exists. To call the addExistingHolding model method.`);
-    return Holdings.updateExistingHolding(req.body);
+    return Holdings.updateExistingHolding(payload);
   })
-  // const payload = req.body;
-  // Transactions.addTransaction(payload)
-  // .then(response => {
-  //   console.log('new trade:', response);
-  //   const { symbol } = response;
-  //   return Holdings.updateExistingHolding(symbol)
-  // })
-  // .then(response2 => {
-  //   if (!response2) {
-  //     console.log('Time to add a brand new holding', payload);
-  //     // Placeholder to add a dummy lastprice
-  //     return Holdings.addTrade(payload);
-  //   }
-  //   console.log('existing trade:', response2);
-  //   return response2;
-  // })
-  // .then(res3 => {
-  //   console.log('res3:', res3);
-  //   res.status(201).send(res3);
-  // })
-  .then(() => {
+  .then(resFromAddingHolding => {
+    console.log('Holding has been added, now to add transaction:', resFromAddingHolding);
+    return Transactions.addTransaction(payload);
+  })
+  .then(resFromAddingTransaction => {
+    console.log('Transaction has been added:', resFromAddingTransaction);
+    console.log('Both holding and transaction has been added. Sending back response to the client.');
     res.status(418).send(req.body);
   })
   .catch(err => {

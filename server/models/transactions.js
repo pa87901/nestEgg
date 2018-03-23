@@ -5,6 +5,7 @@ const getAll = () => db.many('SELECT * FROM transactions');
 const deleteTransactions = ids => ids;
 
 const addTransaction = ticket => {
+  console.log('Received ticket to enter new transaction:', ticket);
   const { symbol, type, date, price } = ticket;
   let { shares } = ticket;
   shares = type === 'Buy' ? shares : -shares;
