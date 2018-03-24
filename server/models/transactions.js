@@ -6,10 +6,10 @@ const deleteTransactions = ids => ids;
 
 const addTransaction = ticket => {
   console.log('Received ticket to enter new transaction:', ticket);
-  const { symbol, type, date, price } = ticket;
+  const { symbol, transactiontype, date, price } = ticket;
   let { shares } = ticket;
-  shares = type === 'Buy' ? shares : -shares;
-  return db.one('INSERT INTO transactions (symbol, transactiontype, date, shares, price) VALUES ($1, $2, $3, $4, $5) RETURNING *', [symbol, type, date, shares, price]
+  shares = transactiontype === 'Buy' ? shares : -shares;
+  return db.one('INSERT INTO transactions (symbol, transactiontype, date, shares, price) VALUES ($1, $2, $3, $4, $5) RETURNING *', [symbol, transactiontype, date, shares, price]
   );
 };
 

@@ -50,9 +50,9 @@ const updateExistingHolding = ticket => {
 
 const addNewHolding = ticket => {
   console.log('Received ticket to enter brand new holding:', ticket);
-  const { symbol, type, price } = ticket;
+  const { symbol, transactiontype, price } = ticket;
   let { shares } = ticket;
-  shares = type === 'Buy' ? shares : -shares;
+  shares = transactiontype === 'Buy' ? shares : -shares;
   return db.one('INSERT INTO holdings (name, symbol, lastprice, currentprice, shares, costprice) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
     [symbol, symbol, price, price, shares, price]
   );

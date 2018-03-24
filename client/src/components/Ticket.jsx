@@ -15,7 +15,7 @@ class Ticket extends Component {
     super();
     this.state = {
       symbol: '',
-      type: '',
+      transactiontype: '',
       date: '',
       shares: 0,
       price: 0,
@@ -36,7 +36,7 @@ class Ticket extends Component {
   }
 
   updateType(event, { value }) {
-    this.setState({ type: value });
+    this.setState({ transactiontype: value });
   }
 
   updateDate(event) {
@@ -60,14 +60,14 @@ class Ticket extends Component {
   }
 
   submitTicket() {
-    const { symbol, type, date, shares, price } = this.state;
+    const { symbol, transactiontype, date, shares, price } = this.state;
     const { handleSubmitTicket } = this.props;
-    if (symbol.length < 1 || (type !== 'Buy' && type !== 'Sell') || date.length < 1 || shares < 1 || price < 0) {
+    if (symbol.length < 1 || (transactiontype !== 'Buy' && transactiontype !== 'Sell') || date.length < 1 || shares < 1 || price < 0) {
       window.alert('Not all trade details entered correctly.');
     } else {
       const payload = {
         symbol,
-        type,
+        transactiontype,
         date,
         shares,
         price
@@ -86,7 +86,12 @@ class Ticket extends Component {
       fetch('/api/transactions/', init)
       .then(res => res.json())
       .then(resJSON => {
-        handleSubmitTicket(resJSON);
+        const transactionPayload = { ...resJSON };
+        // transactionPayload.transactiontype = (resJSON.type === 'Buy') ? 'Buy' : 'Sell';
+        // delete transactionPayload.type;
+        const sharesPayload = resJSON.type === 'Buy' ? resJSON.shares : -resJSON.shares;
+        transactionPayload.shares = sharesPayload;
+        handleSubmitTicket(transactionPayload);
         this.setState({
           symbol: '',
           type: '',
