@@ -2,8 +2,8 @@ import {
   SET_HOLDINGS,
   SELECT_HOLDING,
   SELECT_ALL_HOLDINGS,
-  REMOVE_BOOKINGS
-  // ADD_BOOKING,
+  REMOVE_BOOKINGS,
+  ADD_HOLDING,
 } from '../actions/holdingActions';
 
 export default function reducer(
@@ -14,8 +14,6 @@ export default function reducer(
   switch (action.type) {
     case SET_HOLDINGS:
       return { ...state, holdings: action.payload };
-    // case ADD_BOOKING:  // eslint-disable-line no-case-declarations
-    //   return { ...state, holdings: state.holdings.concat([action.payload]) };
     case SELECT_HOLDING: {
       const selectedIds = state.selected.slice();
       const index = selectedIds.indexOf(action.payload);
@@ -51,6 +49,12 @@ export default function reducer(
         }
       })
       return { ...state, holdings: updatedHoldings, selected: []}
+    }
+    case ADD_HOLDING: {
+      console.log('Holding to add payload:', action.payload);
+      const { price } = action.payload;
+      const newHolding = { ...action.payload, lastprice: price, currentprice: price, costprice: price };
+      return { ...state, holdings: state.holdings.concat(newHolding)};
     }
     default:
       return state;

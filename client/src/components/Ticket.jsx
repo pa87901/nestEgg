@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Button, Icon, Form, Dropdown } from 'semantic-ui-react';
 import { addBooking } from '../actions/transactionActions';
+import { addHolding } from '../actions/holdingActions';
 
 const transaction = [
   { text: 'Buy', value: 'Buy' },
@@ -61,7 +62,7 @@ class Ticket extends Component {
 
   submitTicket() {
     const { symbol, transactiontype, date, shares, price } = this.state;
-    const { handleSubmitTicket } = this.props;
+    const { handleSubmitTicket, handleAddHolding } = this.props;
     if (symbol.length < 1 || (transactiontype !== 'Buy' && transactiontype !== 'Sell') || date.length < 1 || shares < 1 || price < 0) {
       window.alert('Not all trade details entered correctly.');
     } else {
@@ -87,11 +88,11 @@ class Ticket extends Component {
       .then(res => res.json())
       .then(resJSON => {
         const transactionPayload = { ...resJSON };
-        // transactionPayload.transactiontype = (resJSON.type === 'Buy') ? 'Buy' : 'Sell';
-        // delete transactionPayload.type;
-        const sharesPayload = resJSON.type === 'Buy' ? resJSON.shares : -resJSON.shares;
+        const sharesPayload = resJSON.transactiontype === 'Buy' ? resJSON.shares : -resJSON.shares;
         transactionPayload.shares = sharesPayload;
         handleSubmitTicket(transactionPayload);
+        // First case where it is a new holding
+        handleAddHolding(transactionPayload);
         this.setState({
           symbol: '',
           type: '',
@@ -191,12 +192,16 @@ class Ticket extends Component {
 }
 
 Ticket.propTypes = {
-  handleSubmitTicket: PropTypes.func.isRequired
+  handleSubmitTicket: PropTypes.func.isRequired,
+  handleAddHolding: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
   handleSubmitTicket(ticket) {
     dispatch(addBooking(ticket));
+  },
+  handleAddHolding(ticket) {
+    dispatch(addHolding(ticket));
   }
 });
 
