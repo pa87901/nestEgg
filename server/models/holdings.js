@@ -43,9 +43,16 @@ const addTrade = ticket => {
 };
 */
 
-const updateExistingHolding = ticket => {
-  console.log(`This is the ticket to update holding ${ticket.symbol}:`, ticket);
-  return ticket;
+const updateExistingHolding = (ticket, existingHolding) => {
+  console.log(`This is the ticket to update holding ${ticket.symbol}:`, ticket, ' and existing holding:', existingHolding);
+  const { id } = existingHolding;
+  // Determine if ticket is a buy or sell
+  const ticketShares = (ticket.transactiontype === 'Buy') ? ticket.shares : -ticket.shares;
+  // Add the ticket shares, (weight) average the two costPrices
+  const totalShares = ticketShares + existingHolding.shares;
+  const averageCostPrice = ((ticketShares * ticket.price) + (existingHolding.shares * existingHolding.costprice)) / totalShares;
+  // Update the existing holding with a sql query and return
+  return db.one('UPDATE holdings SET shares = $1, costPrice = $2 WHERE id = $3 RETURNING *', [totalShares, averageCostPrice, id]);
 };
 
 const addNewHolding = ticket => {

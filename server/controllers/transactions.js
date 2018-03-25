@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
       return Holdings.addNewHolding(payload);
     }
     console.log(`Holding with symbol ${symbol} exists. To call the addExistingHolding model method.`);
-    return Holdings.updateExistingHolding(payload);
+    return Holdings.updateExistingHolding(payload, holdingWithSymbol);
   })
   .then(resFromAddingHolding => {
     console.log('Holding has been added, now to add transaction:', resFromAddingHolding);
@@ -46,8 +46,8 @@ router.post('/', (req, res) => {
   })
   .then(resFromAddingTransaction => {
     console.log('Transaction has been added:', resFromAddingTransaction);
-    console.log('Both holding and transaction has been added. Sending back response to the client.');
-    res.status(418).send(req.body);
+    console.log('Both holding and transaction has been added. Sending back ticket response to the client.');
+    res.status(418).send(payload);
   })
   .catch(err => {
     console.error('Error adding trade ticket to db.', err); // eslint-disable-line no-console

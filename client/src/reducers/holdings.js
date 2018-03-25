@@ -1,9 +1,9 @@
 import {
   SET_HOLDINGS,
-  // ADD_BOOKING,
   SELECT_HOLDING,
   SELECT_ALL_HOLDINGS,
   REMOVE_BOOKINGS
+  // ADD_BOOKING,
 } from '../actions/holdingActions';
 
 export default function reducer(
