@@ -30,7 +30,19 @@ const Blotter = ({ holdings, handleSelectAllHoldings, selected }) => (
     </Table.Header>
 
     <Table.Body>
-      {holdings.map(holding => <Holding key={holding.symbol} data={holding} />)}
+      {holdings.map(holding => (
+        <Holding
+          key={holding.symbol}
+          // data={holding}
+          id={holding.id}
+          name={holding.name}
+          symbol={holding.symbol}
+          lastprice={holding.lastprice}
+          currentprice={holding.currentprice}
+          shares={holding.shares}
+          costprice={holding.costprice}
+        />
+      ))}
     </Table.Body>
 
     {/*

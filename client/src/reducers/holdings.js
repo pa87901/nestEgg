@@ -3,7 +3,7 @@ import {
   SELECT_HOLDING,
   SELECT_ALL_HOLDINGS,
   REMOVE_BOOKINGS,
-  ADD_HOLDING,
+  ADD_HOLDING
 } from '../actions/holdingActions';
 
 export default function reducer(
@@ -52,9 +52,33 @@ export default function reducer(
     }
     case ADD_HOLDING: {
       console.log('Holding to add payload:', action.payload);
-      const { price } = action.payload;
-      const newHolding = { ...action.payload, lastprice: price, currentprice: price, costprice: price };
-      return { ...state, holdings: state.holdings.concat(newHolding)};
+      const { price, symbol } = action.payload;
+      const existingHoldings = state.holdings;
+      let found = false;
+      let foundHolding;
+      // Iterate through state.holdings
+      for (let i = 0; i < existingHoldings.length; i+=1) {
+        // See if the symbol exists
+        const holding = existingHoldings[i];
+        if (holding.symbol === symbol) {
+          found = true;
+          foundHolding = holding;
+          break;
+        }
+      }
+      // CASE 1: symbol does NOT exist in holdings already, so add holding
+      if (!found) {
+        const newHolding = { ...action.payload, lastprice: price, currentprice: price, costprice: price };
+        return { ...state, holdings: state.holdings.concat(newHolding)};
+      }
+      // CASE 2: symbol ALREADY exits in holdings, so update holding
+      const { transactiontype, shares } = action.payload;
+      const additionalShares = (transactiontype === 'Buy') ? shares : -shares;
+      const totalShares = additionalShares + foundHolding.shares;
+      const averageCostPrice = ((additionalShares * price) + (foundHolding.shares * foundHolding.costprice)) / totalShares;
+      foundHolding.shares = totalShares;
+      foundHolding.costprice = averageCostPrice;
+      return { ...state, holdings: state.holdings.slice() };
     }
     default:
       return state;

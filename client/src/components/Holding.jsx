@@ -4,8 +4,9 @@ import { Table, Checkbox } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { selectHolding } from '../actions/holdingActions';
 
-const Holding = ({ data, handleSelectHolding, selected }) => {
-  const { id, name, symbol, lastprice, currentprice, shares, costprice } = data;
+const Holding = ({ id, name, symbol, lastprice, currentprice, shares, costprice, handleSelectHolding, selected }) => {
+  // const { id, name, symbol, lastprice, currentprice, shares, costprice } = data;
+  // console.log('DATA:', data);
   const calculatePriceChange = (lastP, currentP) => currentP - lastP;
   const calculateMktVal = (currentP, units) => currentP * units;
   const calculateGain = (currentP, units, cost) => calculatePriceChange(cost, currentP) * units;
@@ -38,7 +39,14 @@ const Holding = ({ data, handleSelectHolding, selected }) => {
 };
 
 Holding.propTypes = {
-  data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  // data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired,
+  lastprice: PropTypes.number.isRequired,
+  currentprice: PropTypes.number.isRequired,
+  shares: PropTypes.number.isRequired,
+  costprice: PropTypes.number.isRequired,
   handleSelectHolding: PropTypes.func.isRequired,
   selected: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
 };
