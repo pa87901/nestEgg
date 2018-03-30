@@ -1,8 +1,9 @@
 const path = require('path');
-const SRC_DIR = path.resolve(__dirname, 'client/src');
-const DIST_DIR = path.resolve(__dirname, 'client/dist');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const SRC_DIR = path.resolve(__dirname, 'client/src');
+const DIST_DIR = path.resolve(__dirname, 'client/dist');
 
 const config = {
   entry: [
@@ -31,7 +32,8 @@ const config = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-    new ExtractTextPlugin({ filename: 'styles.css', allChunks: true })
+    new ExtractTextPlugin({ filename: 'styles.css', allChunks: true }),
+    new webpack.DefinePlugin({ 'process.env.BROWSER': true })
   ],
   // watch: true,
   module: {
