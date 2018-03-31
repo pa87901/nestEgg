@@ -24,6 +24,7 @@ class Clipboard extends Component {
     return (
       <Segment.Group>
         <Segment>
+          <h2>Transactions</h2>
           <Jotter />
         </Segment>
         <Segment>

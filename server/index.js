@@ -4,13 +4,13 @@ require('babel-register'); // everything in this file itself will not be transpi
 const express = require('express');
 const bodyParser = require('body-parser');
 // const path = require('path');
-const { createElement } = require('react');
+// const { createElement } = require('react');
 const { renderToString } = require('react-dom/server');
-const { StaticRouter } = require('react-router');
-const { Provider } = require('react-redux');
-const store = require('../client/src/store/configureStore');
+// const { StaticRouter } = require('react-router');
+// const { Provider } = require('react-redux');
+// const store = require('../client/src/store/configureStore');
 const _ = require('lodash');
-const App = require('../client/src/containers/App.jsx').default; // .default because we export default; we export an {} with one key which is default
+// const App = require('../client/src/containers/App.jsx').default; // .default because we export default; we export an {} with one key which is default
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
@@ -76,5 +76,10 @@ app.use('*', (req, res) => {
 });
 
 app.listen(PORT, err => {
-  err ? console.error('Error with server') : console.log(`Listening on port ${PORT}`);
+  // err ? console.error('Error with server') : console.log(`Listening on port ${PORT}`); // eslint-disable-line no-console
+  if (err) {
+    console.error('Error with server'); // eslint-disable-line no-console
+  } else {
+    console.log(`Listening on port ${PORT}`); // eslint-disable-line no-console
+  }
 });

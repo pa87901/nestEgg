@@ -55,6 +55,7 @@ class Portfolio extends Component {
       <div>
         <Segment.Group className="blotter">
           <Segment>
+            <h2>Holdings</h2>
             <Blotter />
           </Segment>
           <Segment className="portfolioButtonRow" >

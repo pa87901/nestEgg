@@ -6,7 +6,7 @@ import history from '../store/history';
 import Portfolio from './Portfolio';
 import Clipboard from './Clipboard';
 
-const FourOhFour = () => <h1>404</h1>
+const Oopsie = () => <h1>Oops! Unrecognised url, please try again.</h1>
 // console.log('store', store, 'history', history);
 
 const App = () => (
@@ -16,9 +16,9 @@ const App = () => (
       <div className="blotter-container">
       <Router history={history}>
         <Switch>
-          <Route exact path="/" component={Portfolio}/>
+          <Route path="/" exact component={Portfolio}/>
           <Route path="/transactions" component={Clipboard} />
-          <Route component={FourOhFour}/>
+          <Route component={Oopsie}/>
         </Switch>
       </Router>
       </div>
