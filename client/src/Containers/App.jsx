@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import store from '../store/configureStore';
 import history from '../store/history';
 import Portfolio from './Portfolio';
@@ -10,12 +10,12 @@ console.log('store', store, 'history', history);
 // console.log('store', store);
 const App = () => (
   <Provider store={store} >
-    <BrowserRouter history={history}>
+    <Router history={history}>
       <Switch>
         <Route exact path="/" component={Portfolio}/>
-        <Route path="/a" component={FourOhFour}/>
+        <Route component={FourOhFour}/>
       </Switch>
-    </BrowserRouter>
+    </Router>
   </Provider>
 );
 

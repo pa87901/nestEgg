@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 // const path = require('path');
 const { createElement } = require('react');
 const { renderToString } = require('react-dom/server');
+const { StaticRouter } = require('react-router');
+const { Provider } = require('react-redux');
+const store = require('../client/src/store/configureStore');
 const _ = require('lodash');
 const App = require('../client/src/containers/App.jsx').default; // .default because we export default; we export an {} with one key which is default
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -34,7 +37,18 @@ app.use('/api/transactions', TransactionsController);
 app.use((req, res) => {
   // console.log('req.url', req.url);
   const context = {};
-  const body = renderToString(createElement(App));
+  // const body = renderToString(createElement(App));
+  const body = renderToString(
+    `<Provider store={store}>
+      <StaticRouter
+        location={req.url}
+        context={context}
+      >
+        <App />
+      </StaticRouter>
+    </Provider>`
+  );
+
   if (context.url) {
     res.redirect(context.url);
   }
@@ -56,8 +70,6 @@ app.use((req, res) => {
   res.write(template({body}));
   res.end();
 });
-
-
 
 app.use('*', (req, res) => {
   res.status(404).send();
