@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Menu } from 'semantic-ui-react';
+import history from '../store/history';
 
 class Navigation extends Component {
   constructor() {
@@ -10,14 +11,15 @@ class Navigation extends Component {
 
   handleItemClick (event, { name }) {
     this.setState({ activeItem: name });
+    history.push(`/${name.toLowerCase()}`);
   }
 
   render() {
     const { activeItem } = this.state;
     return (
       <Menu tabular>
-        <Menu.Item id="navigation" name='holdings' active={activeItem === 'Holdings'} onClick={this.handleItemClick} />
-        <Menu.Item id="navigation" name='transactions' active={activeItem === 'Transactions'} onClick={this.handleItemClick} />
+        <Menu.Item id="navigation" name='Holdings' active={activeItem === 'Holdings'} onClick={this.handleItemClick} />
+        <Menu.Item id="navigation" name='Transactions' active={activeItem === 'Transactions'} onClick={this.handleItemClick} />
       </Menu>
     );
   }
