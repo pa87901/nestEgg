@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import store from '../store/configureStore';
 import history from '../store/history';
+import Navigation from '../components/Navigation';
 import Portfolio from './Portfolio';
 import Clipboard from './Clipboard';
 
@@ -15,11 +16,14 @@ const App = () => (
       <h1>Nest Egg World</h1>
       <div className="blotter-container">
       <Router history={history}>
+        <div>
+        <Navigation />
         <Switch>
           <Route path="/" exact component={Portfolio}/>
           <Route path="/transactions" component={Clipboard} />
           <Route component={Oopsie}/>
         </Switch>
+        </div>
       </Router>
       </div>
     </div>

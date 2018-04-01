@@ -187,7 +187,7 @@ class Ticket extends Component {
           </Modal.Content>
         </Modal>
       </div>
-    )
+    );
   }
 }
 

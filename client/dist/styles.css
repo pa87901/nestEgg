@@ -29,3 +29,8 @@ h1 {
   display: flex;
   justify-content: row;
 }
+
+#navigation {
+  color: #ffffff;
+  background-color: #000000;
+}
