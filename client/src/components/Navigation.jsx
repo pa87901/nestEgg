@@ -11,7 +11,8 @@ class Navigation extends Component {
 
   handleItemClick (event, { name }) {
     this.setState({ activeItem: name });
-    history.push(`/${name.toLowerCase()}`);
+    const pathExt = name.toLowerCase()
+    history.push(`/${pathExt}`);
   }
 
   render() {

@@ -2,7 +2,9 @@ const { db } = require('../../database');
 
 const getAll = () => db.many('SELECT * FROM transactions');
 
-const deleteTransactions = ids => ids;
+const deleteTransactions = symbol => {
+  return db.result(`DELETE FROM transactions WHERE symbol IN ($1) RETURNING *`, [symbol]);
+};
 
 const addTransaction = ticket => {
   console.log('Received ticket to enter new transaction:', ticket);

@@ -27,6 +27,11 @@ class Portfolio extends Component {
 
   delete() {
     const { selected, handleRemoveBookings } = this.props;
+    if (!selected.length) {
+      window.alert('No holdings selected. Please select holdings by checkboxes.');
+      return;
+    }
+
     const payload = { selected };
     const headers = {
       'accept': 'application/json, text/plain, */*',

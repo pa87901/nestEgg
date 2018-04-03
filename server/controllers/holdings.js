@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const Holdings = require('../models/holdings');
+const Transactions = require('../models/transactions');
 
 router.get('/', (req, res) => {
   Holdings.getAll()
@@ -10,26 +11,31 @@ router.get('/', (req, res) => {
   })
   .catch(err => {
     console.error('Unable to get holdings from db.', err); // eslint-disable-line no-console
-    res.status(500).send('Unable to get holdings from db.');
+    res.status(500).send([]);
   });
 });
 
 router.get('/:symbol', (req, res) => {
-  const symbol = req.params.symbol;
+  const { symbol } = req.params;
   Holdings.getOne(symbol)
   .then(response => {
     res.status(200).send(response);
   })
   .catch(err => {
-    res.status(500).send(`Unable to find a holding with symbol ${symbol}.`);
+    console.error(`Unable to find a holding with symbol ${symbol}.`, err);
+    res.status(500).send([]);
   });
 });
 
 router.delete('/', (req, res) => {
   Holdings.deleteHoldings(req.body.selected)
   .then(response => {
-    res.status(303).send(response);
-    // Placeholder to delete transactions associated with this symbol
+    console.log('deleted holding symbol:', response.rows[0].symbol);
+    const { symbol } = response.rows[0];
+    return Transactions.deleteTransactions(symbol);
+  })
+  .then(response2 => {
+    res.status(303).send(response2);
   })
   .catch(err => {
     console.error('Unable to delete holdings from db.', err); // eslint-disable-line no-console

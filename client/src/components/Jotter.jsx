@@ -19,7 +19,7 @@ const Jotter = ({ transactions }) => (
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {transactions.map(transaction => <Transaction key={transaction.symbol} data={transaction} />)}
+      {transactions.map(transaction => <Transaction key={transaction.id} data={transaction} />)}
     </Table.Body>
   </Table>
 );

@@ -8,7 +8,7 @@ import Portfolio from './Portfolio';
 import Clipboard from './Clipboard';
 
 const Oopsie = () => <h1>Oops! Unrecognised url, please try again.</h1>
-console.log('store', store, 'history', history);
+// console.log('store', store, 'history', history);
 
 const App = () => (
   <Provider store={store} >

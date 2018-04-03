@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   })
   .catch(err => {
     console.error('Unable to get transactions from db.', err); // eslint-disable-line no-console
-    res.status(500).send('Unable to get transactions from db.');
+    res.status(500).send([]);
   });
 });
 
