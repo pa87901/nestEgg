@@ -9,7 +9,7 @@ const Blotter = ({ holdings, handleSelectAllHoldings, selected }) => (
   <Table celled>
     <Table.Header>
       <Table.Row>
-        <Table.HeaderCell>
+        <Table.HeaderCell className="checkboxColumn">
           <Checkbox
             onClick={handleSelectAllHoldings}
             checked={holdings.length === selected.length && !!holdings.length}/>

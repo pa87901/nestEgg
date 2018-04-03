@@ -5,10 +5,10 @@ import { Table, Checkbox } from 'semantic-ui-react';
 import Transaction from './Transaction';
 
 const Jotter = ({ transactions }) => (
-  <Table>
+  <Table celled>
     <Table.Header>
       <Table.Row>
-        <Table.HeaderCell>
+        <Table.HeaderCell className="checkboxColumn">
           <Checkbox />
         </Table.HeaderCell>
         <Table.HeaderCell>Symbol</Table.HeaderCell>

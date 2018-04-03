@@ -34,3 +34,7 @@ h1 {
   color: #ffffff;
   background-color: #000000;
 }
+
+.checkboxColumn {
+  width: 4%;
+}
