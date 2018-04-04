@@ -2,8 +2,21 @@ const { db } = require('../../database');
 
 const getAll = () => db.many('SELECT * FROM transactions');
 
-const deleteTransactions = symbol => {
-  return db.result(`DELETE FROM transactions WHERE symbol IN ($1) RETURNING *`, [symbol]);
+const deleteTransactions = symbols => {
+  let numberToDelete = symbols.length;
+  let string = '(';
+  let anotherSymbol = 1;
+  while (numberToDelete > 0) {
+    if (anotherSymbol === 1) {
+      string = `${string}$${anotherSymbol}`;
+    } else {
+      string = `${string}, $${anotherSymbol}`;
+    }
+    numberToDelete -= 1;
+    anotherSymbol += 1;
+  }
+  string = `${string})`;
+  return db.result(`DELETE FROM transactions WHERE symbol IN ${string} RETURNING *`, symbols);
 };
 
 const addTransaction = ticket => {

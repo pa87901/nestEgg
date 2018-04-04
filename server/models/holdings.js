@@ -2,33 +2,33 @@ const { db } = require('../../database');
 
 const getAll = () => db.many('SELECT * FROM holdings');
 
-const getOne = symbol => {
-  return db.one('SELECT * FROM holdings WHERE symbol = $1', symbol)
+const getOne = symbol => (
+  db.one('SELECT * FROM holdings WHERE symbol = $1', symbol)
   .then(existingHolding => {
     console.log('Symbol exists in the holdings table already.')
     return existingHolding;
   })
   .catch(err => {
-    console.log('Symbol does not exist in the holdings table already.');
-    return null;
+    console.log('Symbol does not exist in the holdings table already.', err); // eslint-disable-line no-console
+    return 'Symbol does not exist in the holdings table.';
   })
-};
+);
 
-const deleteHoldings = ids => {
-  let numberToDelete = ids.length;
+const deleteHoldings = symbols => {
+  let numberToDelete = symbols.length;
   let string = '(';
-  let anotherId = 1;
+  let anotherSymbol = 1;
   while (numberToDelete > 0) {
-    if (anotherId === 1) {
-      string = `${string}$${anotherId}`;
+    if (anotherSymbol === 1) {
+      string = `${string}$${anotherSymbol}`;
     } else {
-      string = `${string}, $${anotherId}`;
+      string = `${string}, $${anotherSymbol}`;
     }
     numberToDelete -= 1;
-    anotherId +=1;
+    anotherSymbol +=1;
   }
   string = `${string})`;
-  return db.result(`DELETE FROM holdings WHERE id IN ${string} RETURNING *`, ids);
+  return db.result(`DELETE FROM holdings WHERE symbol IN ${string} RETURNING *`, symbols);
 };
 
 /*

@@ -25,11 +25,11 @@ export default function reducer(
     }
     case SELECT_ALL_HOLDINGS: {
       if (state.holdings.length > state.selected.length) {
-        const ids = [];
+        const symbols = [];
         state.holdings.forEach(holding => {
-          ids.push(holding.id);
+          symbols.push(holding.symbol);
         });
-        return { ...state, selected: ids };
+        return { ...state, selected: symbols };
       }
       return { ...state, selected: [] };
     }

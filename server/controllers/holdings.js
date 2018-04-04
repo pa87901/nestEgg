@@ -19,21 +19,21 @@ router.get('/:symbol', (req, res) => {
   const { symbol } = req.params;
   Holdings.getOne(symbol)
   .then(response => {
+    if (response === 'Symbol does not exist in the holdings table.') {
+      throw new Error('Symbol not found');
+    }
     res.status(200).send(response);
   })
   .catch(err => {
-    console.error(`Unable to find a holding with symbol ${symbol}.`, err);
-    res.status(500).send([]);
+    console.error(`Unable to find a holding with symbol ${symbol}.`, err); // eslint-disable-line no-console
+    res.status(500).send(err);
   });
 });
 
 router.delete('/', (req, res) => {
-  Holdings.deleteHoldings(req.body.selected)
-  .then(response => {
-    console.log('deleted holding symbol:', response.rows[0].symbol);
-    const { symbol } = response.rows[0];
-    return Transactions.deleteTransactions(symbol);
-  })
+  const { selected } = req.body;
+  Holdings.deleteHoldings(selected)
+  .then(() => Transactions.deleteTransactions(selected))
   .then(response2 => {
     res.status(303).send(response2);
   })

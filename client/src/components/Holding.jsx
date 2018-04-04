@@ -4,7 +4,7 @@ import { Table, Checkbox } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { selectHolding } from '../actions/holdingActions';
 
-const Holding = ({ id, name, symbol, lastprice, currentprice, shares, costprice, handleSelectHolding, selected }) => {
+const Holding = ({ name, symbol, lastprice, currentprice, shares, costprice, handleSelectHolding, selected }) => {
   // const { id, name, symbol, lastprice, currentprice, shares, costprice } = data;
   // console.log('DATA:', data);
   const calculatePriceChange = (lastP, currentP) => currentP - lastP;
@@ -13,14 +13,14 @@ const Holding = ({ id, name, symbol, lastprice, currentprice, shares, costprice,
   const calculateGainPercent = (currentP, units, cost) => Math.round(calculateGain(currentP, units, cost) / (cost * units) * 100);
   const calculateDayGain = (currentP, lastP, units) => calculatePriceChange(lastP, currentP) * units;
   const calculateDayGainPercent = (currentP, lastP) => (calculatePriceChange(lastP, currentP) / lastP).toFixed(2) * 100;
-  const select = () => { handleSelectHolding(id) };
+  const select = () => { handleSelectHolding(symbol) };
 
   return (
     <Table.Row>
       <Table.Cell>
         <Checkbox
           onClick={select}
-          checked={selected.indexOf(id) > -1} />
+          checked={selected.indexOf(symbol) > -1} />
       </Table.Cell>
       <Table.Cell>{name}</Table.Cell>
       <Table.Cell>{symbol}</Table.Cell>
@@ -40,7 +40,7 @@ const Holding = ({ id, name, symbol, lastprice, currentprice, shares, costprice,
 
 Holding.propTypes = {
   // data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  id: PropTypes.number.isRequired,
+  // id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   lastprice: PropTypes.number.isRequired,
@@ -56,8 +56,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleSelectHolding(holdingId) {
-    dispatch(selectHolding(holdingId));
+  handleSelectHolding(symbol) {
+    dispatch(selectHolding(symbol));
   }
 });
 

@@ -34,7 +34,7 @@ const Blotter = ({ holdings, handleSelectAllHoldings, selected }) => (
         <Holding
           key={holding.symbol}
           // data={holding}
-          id={holding.id}
+          // id={holding.id}
           name={holding.name}
           symbol={holding.symbol}
           lastprice={holding.lastprice}
