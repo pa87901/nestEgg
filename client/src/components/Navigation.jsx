@@ -9,6 +9,12 @@ class Navigation extends Component {
     this.handleItemClick = this.handleItemClick.bind(this);
   }
 
+  componentWillMount() {
+    const currentPath = history.location.pathname.slice(1);
+    const componentToRender = currentPath.charAt(0).toUpperCase() + currentPath.slice(1);
+    this.setState({ activeItem: componentToRender });
+  }
+
   handleItemClick (event, { name }) {
     this.setState({ activeItem: name });
     const pathExt = name.toLowerCase()
