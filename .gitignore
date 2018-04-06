@@ -14,3 +14,6 @@ dummyPositions.js
 
 # Temporary files most probably now obselete to the project
 park
+
+# Secret files
+secrets

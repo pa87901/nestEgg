@@ -6,7 +6,7 @@ const connection = {
   database: 'nestegg'
 }
 const db = pgp(connection);
-const values = require('./dummyData');
+const values = require('./dummyData2');
 
 const csHoldings = new pgp.helpers.ColumnSet(['name', 'symbol', 'lastprice', 'currentprice', 'shares', 'costprice'], {table: 'holdings'});
 const valuesHoldings = pgp.helpers.insert(values, csHoldings);

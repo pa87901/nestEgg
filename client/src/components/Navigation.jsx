@@ -11,8 +11,10 @@ class Navigation extends Component {
 
   componentWillMount() {
     const currentPath = history.location.pathname.slice(1);
-    const componentToRender = currentPath.charAt(0).toUpperCase() + currentPath.slice(1);
-    this.setState({ activeItem: componentToRender });
+    if (currentPath.length) {
+      const componentToRender = currentPath.charAt(0).toUpperCase() + currentPath.slice(1);
+      this.setState({ activeItem: componentToRender });
+    }
   }
 
   handleItemClick (event, { name }) {
