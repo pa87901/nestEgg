@@ -1,13 +1,13 @@
 const holdings = [
   {
-    name: "Microsoft Coporation",
+    name: "Microsoft Corporation",
     symbol: "MSFT",
     lastprice: 92.3300,
     currentprice: 92.3800,
     shares: 100,
     costprice: 90.0000,
     transactiontype: 'Buy',
-    price: 90.000,
+    price: 90.0000,
     date: '2018-01-02'
   },
   {

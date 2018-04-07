@@ -15,7 +15,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
 const webpackDevConfig = require('../webpack.config');
-const db = require('../database');
+const db = require('../database-mongodb');
 const HoldingsController = require('./controllers/holdings');
 const TransactionsController = require('./controllers/transactions');
 
