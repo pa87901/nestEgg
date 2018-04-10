@@ -17,8 +17,8 @@ const transactionsSchema = new mongoose.Schema({
   price: Number
 });
 
-const Holdings = mongoose.model("Holdings", holdingsSchema);
-const Transactions = mongoose.model("Transactions", transactionsSchema);
+const Holdings = mongoose.model('Holdings', holdingsSchema);
+const Transactions = mongoose.model('Transactions', transactionsSchema);
 
 module.exports = {
   Holdings,
