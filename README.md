@@ -14,6 +14,13 @@ It will record positions and trades, calculate P&L and display performance over 
 * Each user account will be able to store one or many portfolios.
 * Many users will be able to create an account on Nest Egg and store their equity portfolios.
 
+## Tech stack
+* M(ongoDB)
+* E(xpress)
+* R(eact)
+* N(ode)
+* Actually, I am undecided between PostgreSQL and MongoDB for the database, so I am trying out both.
+
 ##
 Stay tuned ...
 
