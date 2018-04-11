@@ -3,7 +3,7 @@ const { Holdings, Transactions } = require('./models');
 
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017/nestegg");
+mongoose.connect('mongodb://localhost:27017/nestegg');
 
 const db = mongoose.connection;
 

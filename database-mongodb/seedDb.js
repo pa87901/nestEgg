@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Holdings, Transactions } = require('./models');
+const { holdings, transactions } = require('./dummyData');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/nestegg');
@@ -11,28 +12,21 @@ db.on('error', () => {
 });
 
 db.on('open', () => {
-  // db.dropCollection('holdings', (err, data) => {
-  //   if (err) {
-  //     console.error('Nothing in holdings collection.', err);
-  //   } else {
-  //     console.log('Done dropping holdings collection.');
-  //   }
-  // });
-
-  // db.dropCollection('transactions', (err, data) => {
-  //   if (err) {
-  //     console.error('Nothing in transactions collection.', err);
-  //   } else {
-  //     console.log('Done dropping transactions collection.');
-  //   }
-  // });
   Holdings.collection.drop()
   .then(() => {
-    console.log('Holdings collection dropped.');
+    console.log('Holdings collection dropped. Inserting dummy holdings...');
+    return Holdings.insertMany(holdings);
+  })
+  .then(() => {
+    console.log('Inserted dummy holdings. Now to drop the transactions collection...');
     return Transactions.collection.drop();
   })
   .then(() => {
-    console.log('Transactions collection dropped.');
+    console.log('Transactions collection dropped. Inserting dummy transactions...');
+    return Transactions.insertMany(transactions);
+  })
+  .then(() => {
+    console.log('My job is done. Closing the connection to the MongoDB.');
     db.close();
   })
   .catch(err => {

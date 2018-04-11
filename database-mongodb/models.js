@@ -1,17 +1,20 @@
 const mongoose = require('mongoose');
+const Promise = require('bluebird');
+
+Promise.promisifyAll(mongoose);
 
 const holdingsSchema = new mongoose.Schema({
   name: String,
   symbol: String,
-  lastPrice: Number,
-  currentPrice: Number,
+  lastprice: Number,
+  currentprice: Number,
   shares: Number,
-  costPrice: Number
+  costprice: Number
 });
 
 const transactionsSchema = new mongoose.Schema({
   symbol: String,
-  transactionType: String,
+  transactiontype: String,
   date: Date,
   shares: Number,
   price: Number
