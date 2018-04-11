@@ -16,7 +16,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
 const webpackDevConfig = require('../webpack.config');
 const db = require('../database-mongodb');
-const HoldingsController = require('./controllers/holdings');
+const HoldingsController = require('./controllers/holdingsMongo');
 const TransactionsController = require('./controllers/transactions');
 
 const PORT = process.env.PORT || 3000;
