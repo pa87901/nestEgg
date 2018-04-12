@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
     res.status(200).send(JSON.stringify(holdings));
   })
   .catch(err => {
+    console.error('Unable to get holdings from mongodb.', err);
     res.status(500).send([]);
   });
 });

@@ -7,7 +7,7 @@ import { selectHolding } from '../actions/holdingActions';
 const Holding = ({ name, symbol, lastprice, currentprice, shares, costprice, handleSelectHolding, selected }) => {
   // const { id, name, symbol, lastprice, currentprice, shares, costprice } = data;
   // console.log('DATA:', data);
-  const calculatePriceChange = (lastP, currentP) => currentP - lastP;
+  const calculatePriceChange = (lastP, currentP) => Math.round(currentP - lastP, 2);
   const calculateMktVal = (currentP, units) => currentP * units;
   const calculateGain = (currentP, units, cost) => calculatePriceChange(cost, currentP) * units;
   const calculateGainPercent = (currentP, units, cost) => Math.round(calculateGain(currentP, units, cost) / (cost * units) * 100);

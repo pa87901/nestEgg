@@ -17,7 +17,9 @@ const webpack = require('webpack');
 const webpackDevConfig = require('../webpack.config');
 const db = require('../database-mongodb');
 const HoldingsController = require('./controllers/holdingsMongo');
-const TransactionsController = require('./controllers/transactions');
+const TransactionsController = require('./controllers/transactionsMongo');
+// const HoldingsController = require('./controllers/holdings');
+// const TransactionsController = require('./controllers/transactions');
 
 const PORT = process.env.PORT || 3000;
 
