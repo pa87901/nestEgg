@@ -16,4 +16,17 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/:symbol', (req, res) => {
+  const { symbol } = req.params;
+  Holdings.findOne({ symbol })
+  .then(response => {
+    console.log('MONGO symbol response:', response);
+    res.status(200).send(response);
+  })
+  .catch(err => {
+    console.error(`Unable to find a holding with symbol ${symbol}.`, err);
+    res.status(500).send(err);
+  });
+});
+
 module.exports = router;
