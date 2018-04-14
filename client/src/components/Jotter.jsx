@@ -19,7 +19,12 @@ const Jotter = ({ transactions }) => (
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {transactions.map(transaction => <Transaction key={transaction.id} data={transaction} />)}
+      {transactions.map(transaction => {
+        const id = transaction._id; // eslint-disable-line no-underscore-dangle
+        return (
+          <Transaction key={id} data={transaction} />
+        )
+      })}
     </Table.Body>
   </Table>
 );
