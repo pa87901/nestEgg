@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment } from 'semantic-ui-react';
+import fetch from 'isomorphic-fetch';
 import Jotter from '../components/Jotter';
 import Ticket from '../components/Ticket';
 import { setTransactions } from '../actions/transactionActions';
@@ -45,4 +46,5 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
+export const Unwrapped = Clipboard;
 export default connect(null, mapDispatchToProps)(Clipboard);
