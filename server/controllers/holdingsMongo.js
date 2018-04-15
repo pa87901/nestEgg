@@ -29,4 +29,19 @@ router.get('/:symbol', (req, res) => {
   });
 });
 
+router.delete('/', (req, res) => {
+  const { selected } = req.body;
+  console.log('Selected holdings to delete:', selected);
+  Holdings.remove({ symbol: { $in: selected } })
+  .then(response => {
+    console.log('deleted symbols:', response);
+    res.status(418).send(response);
+  })
+  .catch(err => {
+    console.error('error deleting symbols', err);
+    res.status(500).send('NO SIR');
+  });
+});
+
+
 module.exports = router;

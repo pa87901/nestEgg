@@ -10,7 +10,8 @@
     "server-dev": "webpack -d --config ./webpack.dev.config.js & nodemon server/index.js",
     "start": "NODE_ENV=server nodemon server/index.js",
     "build": "webpack -p",
-    "seedDb": "node ./database/seedData.js"
+    "seedDb": "node ./database/seedData.js",
+    "seedMDb": "node ./database-mongodb/seedDb.js"
   },
   "repository": {
     "type": "git",
