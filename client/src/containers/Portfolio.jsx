@@ -47,7 +47,11 @@ class Portfolio extends Component {
     fetch('/api/holdings/', init)
     .then(res => res.json())
     .then(resJSON => {
+      console.log('Rez:', resJSON);
+      handleRemoveBookings(resJSON.selected);
+      /* Use this for PSQL database
       handleRemoveBookings(resJSON.rows);
+      */
     })
     .catch(err => {
       console.error('Error sending ids to delete:', err); // eslint-disable-line no-console

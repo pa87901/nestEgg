@@ -35,7 +35,11 @@ router.delete('/', (req, res) => {
   Holdings.remove({ symbol: { $in: selected } })
   .then(response => {
     console.log('deleted symbols:', response);
-    res.status(418).send(response);
+    const responseBody = {
+      selected,
+      response
+    }
+    res.status(418).send(responseBody);
   })
   .catch(err => {
     console.error('error deleting symbols', err);

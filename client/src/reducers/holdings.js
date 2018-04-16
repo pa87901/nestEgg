@@ -34,6 +34,22 @@ export default function reducer(
       return { ...state, selected: [] };
     }
     case REMOVE_BOOKINGS: {
+      // Use this if MongoDB is being used
+      const remainingHoldings = state.holdings.slice();
+      const holdingsToDelete = action.payload;
+      const symbols = remainingHoldings.map(holding => holding.symbol);
+      holdingsToDelete.forEach(symbol => {
+        const index = symbols.indexOf(symbol);
+        remainingHoldings[index] = null;
+      });
+      const updatedHoldings = [];
+      remainingHoldings.forEach(holding => {
+        if (holding) {
+          updatedHoldings.push(holding);
+        }
+      });
+      return { ...state, holdings: updatedHoldings, selected: [] }
+      /* Use this if PSQL database is being used
       const remainingHoldings = state.holdings.slice();
       const holdingsToDelete = action.payload;
       const idsToDelete = holdingsToDelete.map(holding => holding.id);
@@ -47,8 +63,9 @@ export default function reducer(
         if (holding) {
           updatedHoldings.push(holding);
         }
-      })
+      });
       return { ...state, holdings: updatedHoldings, selected: []}
+      */
     }
     case ADD_HOLDING: {
       console.log('Holding to add payload:', action.payload);
