@@ -34,14 +34,14 @@ const transactions = [
     price: 90.0000
   },
   {
-    symbol: "Facebook",
+    symbol: "FB",
     transactiontype: "Buy",
     date: "2018-02-05",
     shares: 100,
     price: 150.0000
   },
   {
-    symbol: "Amazon",
+    symbol: "AMZN",
     transactiontype: "Buy",
     date: "2018-03-12",
     shares: 10,

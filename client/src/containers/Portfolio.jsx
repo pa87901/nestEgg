@@ -47,7 +47,7 @@ class Portfolio extends Component {
     fetch('/api/holdings/', init)
     .then(res => res.json())
     .then(resJSON => {
-      console.log('Rez:', resJSON);
+      // Use this for MongoDB database
       handleRemoveBookings(resJSON.selected);
       /* Use this for PSQL database
       handleRemoveBookings(resJSON.rows);

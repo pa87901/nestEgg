@@ -1,13 +1,12 @@
 const express = require('express');
 
 const router = express.Router();
-const { Holdings } = require('../../database-mongodb/models');
+const { Holdings, Transactions } = require('../../database-mongodb/models');
 
 router.get('/', (req, res) => {
-  console.log('Holdings model:', Holdings);
   Holdings.find()
   .then(holdings => {
-    console.log('Holdings from mongodb:', holdings);
+    // console.log('Holdings from mongodb:', holdings);
     res.status(200).send(JSON.stringify(holdings));
   })
   .catch(err => {
@@ -20,7 +19,7 @@ router.get('/:symbol', (req, res) => {
   const { symbol } = req.params;
   Holdings.findOne({ symbol })
   .then(response => {
-    console.log('MONGO symbol response:', response);
+    // console.log('MONGO symbol response:', response);
     res.status(200).send(response);
   })
   .catch(err => {
@@ -31,10 +30,10 @@ router.get('/:symbol', (req, res) => {
 
 router.delete('/', (req, res) => {
   const { selected } = req.body;
-  console.log('Selected holdings to delete:', selected);
+  // console.log('Selected holdings to delete:', selected);
   Holdings.remove({ symbol: { $in: selected } })
+  .then(() => Transactions.remove({ symbol: { $in: selected } }))
   .then(response => {
-    console.log('deleted symbols:', response);
     const responseBody = {
       selected,
       response

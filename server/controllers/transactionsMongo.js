@@ -6,7 +6,7 @@ const { Transactions } = require('../../database-mongodb/models');
 router.get('/', (req, res) => {
   Transactions.find()
   .then(transactions => {
-    console.log('Transactions from mongodb:', transactions);
+    // console.log('Transactions from mongodb:', transactions);
     res.status(200).send(JSON.stringify(transactions));
   })
   .catch(err => {
