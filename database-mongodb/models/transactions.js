@@ -14,17 +14,26 @@ const getAll = callback => {
 };
 
 const deleteTransactions = (symbols, callback) => {
- Transactions.remove({ symbol: { $in: symbols } }, (err, response) => {
-  if (err) {
-    callback(err, null);
-  } else {
-    callback(null, response);
-  }
+  Transactions.remove({ symbol: { $in: symbols } }, (err, response) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, response);
+    }
  });
 };
 
 const addTransaction = (ticket, callback) => {
-
+  const { symbol, transactiontype, date, price } = ticket;
+  let { shares } = ticket;
+  shares = transactiontype === 'Buy' ? shares : -shares;
+  Transactions.create({ symbol, transactiontype, date, shares, price }, (err, response) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, response);
+    }
+  })
 };
 
 

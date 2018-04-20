@@ -19,9 +19,10 @@ router.get('/', (req, res) => {
 */
 
 const Promise = require('bluebird');
-let { getAll } = require('../../database-mongodb/models/transactions');
+let { getAll, deleteTransactions } = require('../../database-mongodb/models/transactions');
 
 getAll = Promise.promisify(getAll);
+deleteTransactions = Promise.promisify(deleteTransactions);
 
 router.get('/', (req, res) => {
   getAll()
@@ -32,6 +33,24 @@ router.get('/', (req, res) => {
     console.error('Unable to get transactions from mongodb.', err);
     res.status(500).send([]);
   })
+});
+
+router.delete('/', (req, res) => {
+  const { selected } = req.body;
+  deleteTransactions(selected)
+  .then(response => {
+    console.log('Deleted transactions:', response);
+    res.status(303).send(response);
+  })
+  .catch(err => {
+    console.error('Unable to delete transactions from db.', err); // eslint-disable-line no-console
+    res.status(500).send('Unable to delete transactions from db.');
+  });
+});
+
+router.post('/', (req, res) => {
+  // Placeholder
+  res.status(418).send('Whoohoo');
 })
 
 module.exports = router;
