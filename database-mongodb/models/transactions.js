@@ -1,44 +1,51 @@
 const mongoose = require('mongoose');
+const Promise = require('bluebird');
 const { transactionsSchema } = require('../schema');
 
 const Transactions = mongoose.model('Transactions', transactionsSchema);
 
-const getAll = callback => {
-  Transactions.find({}, (err, transactions) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, transactions);
-    }
-  });
-};
+const getAllTransactions = () => (
+  new Promise((resolve, reject) => {
+    Transactions.find({}, (err, transactions) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(transactions);
+      }
+    });
+  })
+);
 
-const deleteTransactions = (symbols, callback) => {
-  Transactions.remove({ symbol: { $in: symbols } }, (err, response) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, response);
-    }
- });
-};
+const deleteTransactions = symbols => (
+  new Promise((resolve, reject) => {
+    Transactions.remove({ symbol: { $in: symbols } }, (err, response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response);
+      }
+    });
+  })
+);
 
-const addTransaction = (ticket, callback) => {
+const addTransaction = ticket => {
   const { symbol, transactiontype, date, price } = ticket;
   let { shares } = ticket;
   shares = transactiontype === 'Buy' ? shares : -shares;
-  Transactions.create({ symbol, transactiontype, date, shares, price }, (err, response) => {
-    if (err) {
-      callback(err, null);
-    } else {
-      callback(null, response);
-    }
-  })
+  return new Promise((resolve, reject) => {
+    Transactions.create({ symbol, transactiontype, date, shares, price }, (err, response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response);
+      }
+    });
+  });
 };
 
 
 module.exports = {
-  getAll,
+  getAllTransactions,
   deleteTransactions,
   addTransaction
 }

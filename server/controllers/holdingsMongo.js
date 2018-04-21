@@ -53,9 +53,6 @@ const Promise = require('bluebird');
 const { getAllHoldings, getOneHolding, deleteHoldings } = require('../../database-mongodb/models/holdings');
 let { deleteTransactions } = require('../../database-mongodb/models/transactions');
 
-// getAll = Promise.promisify(getAll);
-// getOne = Promise.promisify(getOne);
-// deleteHoldings = Promise.promisify(deleteHoldings);
 deleteTransactions = Promise.promisify(deleteTransactions);
 
 router.get('/', (req, res) => {
@@ -87,7 +84,6 @@ router.delete('/', (req, res) => {
   deleteHoldings(selected)
   .then(() => deleteTransactions(selected))
   .then(response => {
-    console.log('Response::', response);
     res.status(200).send(response);
   })
   .catch(err => {

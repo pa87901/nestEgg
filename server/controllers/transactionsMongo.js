@@ -18,14 +18,13 @@ router.get('/', (req, res) => {
 });
 */
 
-const Promise = require('bluebird');
-let { getAll, deleteTransactions } = require('../../database-mongodb/models/transactions');
+const { getAllTransactions, deleteTransactions } = require('../../database-mongodb/models/transactions');
 
-getAll = Promise.promisify(getAll);
-deleteTransactions = Promise.promisify(deleteTransactions);
+// getAll = Promise.promisify(getAll);
+// deleteTransactions = Promise.promisify(deleteTransactions);
 
 router.get('/', (req, res) => {
-  getAll()
+  getAllTransactions()
   .then(transactions => {
     res.status(200).send(transactions);
   })
