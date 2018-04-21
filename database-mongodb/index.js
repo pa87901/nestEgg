@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const { Holdings, Transactions } = require('./models');
+const { getAllHoldings } = require('./models/holdings');
+const { getAllTransactions } = require('./models/transactions');
 
 
 mongoose.Promise = global.Promise;
@@ -13,20 +14,20 @@ db.on('error', () => {
 
 db.on('open', () => {
   console.log('mongoose connected successfully');
-  Holdings.findOne({ 'name': 'Microsoft Corporation' }, (err, holdings) => {
-    if (err) {
-      console.error('Error finding one document from the Holdings collection:', err);
-    } else {
-      // console.log('BAM BAM %s %s %s', holdings.name, holdings.symbol, holdings.shares);
-      console.log('Tea:', holdings);
-    }
+  // Testing the Holdings model works.
+  getAllHoldings()
+  .then(holdings => {
+    console.log('Tea with milk:', holdings);
+  })
+  .catch(err => {
+    console.error('Error finding one document from the Holdings collection:', err);
   });
-
-  Transactions.find({}, (err, transactions) => {
-    if (err) {
-      console.error('Error with :(', err);
-    } else {
-      console.log('Coffee:', transactions);
-    }
+  // Testing the Transactions model works.
+  getAllTransactions()
+  .then(transactions => {
+    console.log('Coffee with milk:', transactions);
+  })
+  .catch(err => {
+    console.error('Bad transactions error :((', err);
   });
 });

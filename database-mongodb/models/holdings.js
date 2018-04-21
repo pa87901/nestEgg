@@ -6,16 +6,6 @@ const { holdingsSchema } = require('../schema');
 
 const Holdings = mongoose.model('Holdings', holdingsSchema);
 
-// const getAll = callback => {
-//   Holdings.find({}, (err, holdings) => {
-//     if (err) {
-//       callback(err, null);
-//     } else {
-//       callback(null, holdings);
-//     }
-//   });
-// };
-
 const getAllHoldings = () => (
   new Promise((resolve, reject) => {
     Holdings.find({}, (err, holdings) => {
@@ -27,16 +17,6 @@ const getAllHoldings = () => (
     });
   })
 );
-
-// const getOne = (symbol, callback) => {
-//   Holdings.findOne({ symbol }, (err, holding) => {
-//     if (err) {
-//       callback(err, null);
-//     } else {
-//       callback(null, holding);
-//     }
-//   });
-// };
 
 const getOneHolding = symbol => (
   new Promise((resolve, reject) => {
@@ -50,16 +30,6 @@ const getOneHolding = symbol => (
   })
 );
 
-// const deleteHoldings = (symbols, callback) => {
-//   Holdings.remove({ symbol: { $in: symbols } }, (err, response) => {
-//     if (err) {
-//       callback(err, null);
-//     } else {
-//       callback(null, response);
-//     }
-//   });
-// };
-
 const deleteHoldings = symbols => (
   new Promise((resolve, reject) => {
     Holdings.remove({ symbol: { $in: symbols } }, (err, response) => {
@@ -71,6 +41,7 @@ const deleteHoldings = symbols => (
     });
   })
 );
+
 
 module.exports = {
   getAllHoldings,
