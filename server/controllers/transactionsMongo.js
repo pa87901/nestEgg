@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
     res.status(200).send(transactions);
   })
   .catch(err => {
-    console.error('Unable to get transactions from mongodb.', err);
+    console.error('Unable to get transactions from mongodb.', err); // eslint-disable-line no-console
     res.status(500).send([]);
   })
 });

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Segment } from 'semantic-ui-react';
+import { Segment, Button } from 'semantic-ui-react';
 import fetch from 'isomorphic-fetch';
 import Jotter from '../components/Jotter';
 import Ticket from '../components/Ticket';
@@ -28,8 +28,13 @@ class Clipboard extends Component {
           <h2>Transactions</h2>
           <Jotter />
         </Segment>
-        <Segment>
+        <Segment className="portfolioButtonRow">
           <Ticket />
+          <Button
+            basic
+            color={null}>
+            Delete
+          </Button>
         </Segment>
       </Segment.Group>
     );

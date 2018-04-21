@@ -5,14 +5,14 @@ import { Table, Checkbox } from 'semantic-ui-react';
 import Holding from './Holding';
 import { selectAllHoldings } from '../actions/holdingActions';
 
-const Blotter = ({ holdings, handleSelectAllHoldings, selected }) => (
+const Blotter = ({ holdings, handleSelectAllHoldings, selectedHoldings }) => (
   <Table celled>
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell className="checkboxColumn">
           <Checkbox
             onClick={handleSelectAllHoldings}
-            checked={holdings.length === selected.length && !!holdings.length}/>
+            checked={holdings.length === selectedHoldings.length && !!holdings.length}/>
         </Table.HeaderCell>
         <Table.HeaderCell>Name</Table.HeaderCell>
         <Table.HeaderCell>Symbol</Table.HeaderCell>
@@ -55,12 +55,12 @@ const Blotter = ({ holdings, handleSelectAllHoldings, selected }) => (
 Blotter.propTypes = {
   holdings: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   handleSelectAllHoldings: PropTypes.func.isRequired,
-  selected: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
+  selectedHoldings: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = state => ({
   holdings: state.holdings.holdings,
-  selected: state.holdings.selected
+  selectedHoldings: state.holdings.selectedHoldings
 });
 
 const mapDispatchToProps = dispatch => ({

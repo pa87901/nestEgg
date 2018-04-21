@@ -33,14 +33,14 @@ router.get('/:symbol', (req, res) => {
 });
 
 router.delete('/', (req, res) => {
-  const { selected } = req.body;
-  console.log('Symbols to delete:', selected);
-  deleteHoldings(selected)
-  .then(() => deleteTransactions(selected))
+  const { selectedHoldings } = req.body;
+  console.log('Symbols to delete:', selectedHoldings);
+  deleteHoldings(selectedHoldings)
+  .then(() => deleteTransactions(selectedHoldings))
   .then(response => {
     const payload = {
       response,
-      selected
+      selectedHoldings
     }
     res.status(303).send(payload);
   })

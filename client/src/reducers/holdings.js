@@ -9,29 +9,29 @@ import {
 export default function reducer(
   state = {
     holdings: [],
-    selected: []
+    selectedHoldings: []
   }, action) {
   switch (action.type) {
     case SET_HOLDINGS:
       return { ...state, holdings: action.payload };
     case SELECT_HOLDING: {
-      const selectedIds = state.selected.slice();
+      const selectedIds = state.selectedHoldings.slice();
       const index = selectedIds.indexOf(action.payload);
       if (index < 0) {
-        return { ...state, selected: state.selected.concat([action.payload]) };
+        return { ...state, selectedHoldings: state.selectedHoldings.concat([action.payload]) };
       }
       selectedIds.splice(index, 1);
-      return { ...state, selected: selectedIds };
+      return { ...state, selectedHoldings: selectedIds };
     }
     case SELECT_ALL_HOLDINGS: {
-      if (state.holdings.length > state.selected.length) {
+      if (state.holdings.length > state.selectedHoldings.length) {
         const symbols = [];
         state.holdings.forEach(holding => {
           symbols.push(holding.symbol);
         });
-        return { ...state, selected: symbols };
+        return { ...state, selectedHoldings: symbols };
       }
-      return { ...state, selected: [] };
+      return { ...state, selectedHoldings: [] };
     }
     case REMOVE_BOOKINGS: {
       // Use this if MongoDB is being used
@@ -48,7 +48,7 @@ export default function reducer(
           updatedHoldings.push(holding);
         }
       });
-      return { ...state, holdings: updatedHoldings, selected: [] }
+      return { ...state, holdings: updatedHoldings, selectedHoldings: [] }
       /* Use this if PSQL database is being used
       const remainingHoldings = state.holdings.slice();
       const holdingsToDelete = action.payload;
@@ -64,7 +64,7 @@ export default function reducer(
           updatedHoldings.push(holding);
         }
       });
-      return { ...state, holdings: updatedHoldings, selected: []}
+      return { ...state, holdings: updatedHoldings, selectedHoldings: []}
       */
     }
     case ADD_HOLDING: {

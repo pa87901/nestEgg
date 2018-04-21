@@ -26,13 +26,13 @@ class Portfolio extends Component {
   }
 
   delete() {
-    const { selected, handleRemoveBookings } = this.props;
-    if (!selected.length) {
+    const { selectedHoldings, handleRemoveBookings } = this.props;
+    if (!selectedHoldings.length) {
       window.alert('No holdings selected. Please select holdings by checkboxes.');
       return;
     }
-
-    const payload = { selected };
+    console.log('selectedHoldings:', selectedHoldings);
+    const payload = { selectedHoldings };
     const headers = {
       'accept': 'application/json, text/plain, */*',
       'content-type': 'application/json'
@@ -48,7 +48,7 @@ class Portfolio extends Component {
     .then(res => res.json())
     .then(resJSON => {
       // Use this for MongoDB database
-      handleRemoveBookings(resJSON.selected);
+      handleRemoveBookings(resJSON.selectedHoldings);
       /* Use this for PSQL database
       handleRemoveBookings(resJSON.rows);
       */
@@ -59,7 +59,7 @@ class Portfolio extends Component {
   }
 
   render() {
-    const { selected } = this.props;
+    const { selectedHoldings } = this.props;
     return (
       <div>
         <Segment.Group className="blotter">
@@ -70,7 +70,7 @@ class Portfolio extends Component {
           <Segment className="portfolioButtonRow" >
             <Button
               basic
-              color={selected.length ? "red" : null}
+              color={selectedHoldings.length ? "red" : null}
               onClick={this.delete}>
                 Delete
             </Button>
@@ -83,12 +83,12 @@ class Portfolio extends Component {
 
 Portfolio.propTypes = {
   handleSetHoldings: PropTypes.func.isRequired,
-  selected: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  selectedHoldings: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   handleRemoveBookings: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  selected: state.holdings.selected
+  selectedHoldings: state.holdings.selectedHoldings
 });
 
 const mapDispatchToProps = dispatch => ({

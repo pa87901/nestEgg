@@ -4,7 +4,7 @@ import { Table, Checkbox } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { selectHolding } from '../actions/holdingActions';
 
-const Holding = ({ name, symbol, lastprice, currentprice, shares, costprice, handleSelectHolding, selected }) => {
+const Holding = ({ name, symbol, lastprice, currentprice, shares, costprice, handleSelectHolding, selectedHoldings }) => {
   // const { id, name, symbol, lastprice, currentprice, shares, costprice } = data;
   // console.log('DATA:', data);
   const calculatePriceChange = (lastP, currentP) => Math.round(currentP - lastP, 2);
@@ -20,7 +20,7 @@ const Holding = ({ name, symbol, lastprice, currentprice, shares, costprice, han
       <Table.Cell>
         <Checkbox
           onClick={select}
-          checked={selected.indexOf(symbol) > -1} />
+          checked={selectedHoldings.indexOf(symbol) > -1} />
       </Table.Cell>
       <Table.Cell>{name}</Table.Cell>
       <Table.Cell>{symbol}</Table.Cell>
@@ -48,11 +48,11 @@ Holding.propTypes = {
   shares: PropTypes.number.isRequired,
   costprice: PropTypes.number.isRequired,
   handleSelectHolding: PropTypes.func.isRequired,
-  selected: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
+  selectedHoldings: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
 };
 
 const mapStateToProps = state => ({
-  selected: state.holdings.selected
+  selectedHoldings: state.holdings.selectedHoldings
 });
 
 const mapDispatchToProps = dispatch => ({
