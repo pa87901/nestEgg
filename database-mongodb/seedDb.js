@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
-const { Holdings, Transactions } = require('./models');
+const Promise = require('bluebird');
+const { holdingsSchema, transactionsSchema } = require('./schema');
 const { holdings, transactions } = require('./dummyData');
+
+Promise.promisifyAll(mongoose);
+const Holdings = mongoose.model('Holdings', holdingsSchema);
+const Transactions = mongoose.model('Transactions', transactionsSchema);
+
+// const { Holdings, Transactions } = require('./models');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/nestegg');

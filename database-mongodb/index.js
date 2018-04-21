@@ -14,20 +14,15 @@ db.on('error', () => {
 
 db.on('open', () => {
   console.log('mongoose connected successfully');
-  // Testing the Holdings model works.
   getAllHoldings()
   .then(holdings => {
     console.log('Tea with milk:', holdings);
+    return getAllTransactions();
   })
-  .catch(err => {
-    console.error('Error finding one document from the Holdings collection:', err);
-  });
-  // Testing the Transactions model works.
-  getAllTransactions()
   .then(transactions => {
     console.log('Coffee with milk:', transactions);
   })
   .catch(err => {
-    console.error('Bad transactions error :((', err);
+    console.error('Error finding documents from the Holdings or Transactions collection:', err);
   });
 });
