@@ -50,16 +50,16 @@ router.delete('/', (req, res) => {
 */
 
 const Promise = require('bluebird');
-let { getAll, getOne, deleteHoldings } = require('../../database-mongodb/models/holdings');
+const { getAllHoldings, getOneHolding, deleteHoldings } = require('../../database-mongodb/models/holdings');
 let { deleteTransactions } = require('../../database-mongodb/models/transactions');
 
-getAll = Promise.promisify(getAll);
-getOne = Promise.promisify(getOne);
-deleteHoldings = Promise.promisify(deleteHoldings);
+// getAll = Promise.promisify(getAll);
+// getOne = Promise.promisify(getOne);
+// deleteHoldings = Promise.promisify(deleteHoldings);
 deleteTransactions = Promise.promisify(deleteTransactions);
 
 router.get('/', (req, res) => {
-  getAll()
+  getAllHoldings()
   .then(holdings => {
     res.status(200).send(holdings);
   })
@@ -71,7 +71,7 @@ router.get('/', (req, res) => {
 
 router.get('/:symbol', (req, res) => {
   const { symbol } = req.params;
-  getOne(symbol)
+  getOneHolding(symbol)
   .then(holding => {
     res.status(200).send(holding);
   })
@@ -87,7 +87,7 @@ router.delete('/', (req, res) => {
   deleteHoldings(selected)
   .then(() => deleteTransactions(selected))
   .then(response => {
-    console.log('Response', response);
+    console.log('Response::', response);
     res.status(200).send(response);
   })
   .catch(err => {
