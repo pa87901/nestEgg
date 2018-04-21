@@ -1,8 +1,10 @@
 const express = require('express');
 const {
   getAllTransactions,
-  deleteTransactions
+  deleteTransactions,
+  addTransaction
 } = require('../../database-mongodb/models/transactions');
+const { getOneHolding, addHolding } = require('../../database-mongodb/models/holdings');
 
 
 const router = express.Router();
@@ -33,7 +35,29 @@ router.delete('/', (req, res) => {
 
 router.post('/', (req, res) => {
   // Placeholder
-  res.status(418).send('Whoohoo');
-})
+  console.log('Transaction body:', req.body);
+  const payload = req.body;
+  const { symbol } = payload;
+  // Check if the symbol on the ticket exists in the holdings table already
+  getOneHolding(symbol)
+  .then(holdingWithSymbol => {
+    if (!holdingWithSymbol) {
+      console.log(`Holding with symbol ${symbol} does not exist. To call the addNewHolding model method.`);
+      return addHolding(payload);
+    }
+  })
+  .then(resFromAddingHolding => {
+    console.log('Holding has been added, now to add transaction:', resFromAddingHolding);
+    return addTransaction(payload)
+  })
+  .then(resFromAddingTransaction => {
+    console.log('Transaction has been added:', resFromAddingTransaction);
+    console.log('Both holding and transaction has been added. Sending back ticket response to the client.');
+    res.status(418).send(payload);
+  })
+  .catch(err => {
+    console.error('Error adding trade ticket to db.', err); // eslint-disable-line no-console
+  });
+});
 
 module.exports = router;

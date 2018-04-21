@@ -42,9 +42,33 @@ const deleteHoldings = symbols => (
   })
 );
 
+const addHolding = ticket => {
+  console.log('Received ticket to enter brand new holding:', ticket);
+  const { symbol, transactiontype, price } = ticket;
+  let { shares } = ticket;
+  shares = transactiontype === 'Buy' ? shares : -shares;
+  return new Promise((resolve, reject) => {
+    Holdings.create({
+      name: symbol,
+      symbol,
+      lastprice: price,
+      currentprice: price,
+      shares,
+      costprice: price
+    }, (err, response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
 
 module.exports = {
   getAllHoldings,
   getOneHolding,
-  deleteHoldings
+  deleteHoldings,
+  addHolding
 };
