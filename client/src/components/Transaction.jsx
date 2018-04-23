@@ -14,7 +14,6 @@ const Transaction = ({ data, handleSelectTransaction, selectedTransactions }) =>
           onClick={select}
           checked={selectedTransactions.indexOf(_id) > -1}/>
       </Table.Cell>
-      <Table.Cell>{_id}</Table.Cell>
       <Table.Cell>{symbol}</Table.Cell>
       <Table.Cell>{transactiontype}</Table.Cell>
       <Table.Cell>{date.slice(0, 10)}</Table.Cell>
