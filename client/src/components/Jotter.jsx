@@ -3,13 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Table, Checkbox } from 'semantic-ui-react';
 import Transaction from './Transaction';
+import { selectAllTransactions } from '../actions/transactionActions';
 
-const Jotter = ({ transactions }) => (
+const Jotter = ({ transactions, handleSelectAllTransactions, selectedTransactions }) => (
   <Table celled>
     <Table.Header>
       <Table.Row>
         <Table.HeaderCell className="checkboxColumn">
-          <Checkbox />
+          <Checkbox
+            onClick={handleSelectAllTransactions}
+            checked={transactions.length === selectedTransactions.length && !!transactions.length}/>
         </Table.HeaderCell>
         <Table.HeaderCell>Symbol</Table.HeaderCell>
         <Table.HeaderCell>Type</Table.HeaderCell>
@@ -30,11 +33,20 @@ const Jotter = ({ transactions }) => (
 );
 
 Jotter.propTypes = {
-  transactions: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
+  transactions: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  handleSelectAllTransactions: PropTypes.func.isRequired,
+  selectedTransactions: PropTypes.array.isRequired // eslint-disable-line react/forbid-prop-types
 }
 
 const mapStateToProps = state => ({
-  transactions: state.transactions.transactions
+  transactions: state.transactions.transactions,
+  selectedTransactions: state.transactions.selectedTransactions
 });
 
-export default connect(mapStateToProps, null)(Jotter);
+const mapDispatchToProps = dispatch => ({
+  handleSelectAllTransactions() {
+    dispatch(selectAllTransactions());
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Jotter);

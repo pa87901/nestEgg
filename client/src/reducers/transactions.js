@@ -1,7 +1,8 @@
 import {
   SET_TRANSACTIONS,
   ADD_BOOKING,
-  SELECT_TRANSACTION
+  SELECT_TRANSACTION,
+  SELECT_ALL_TRANSACTIONS
 } from '../actions/transactionActions';
 
 export default function reducer(
@@ -22,6 +23,16 @@ export default function reducer(
       }
       selectedIds.splice(index, 1);
       return { ...state, selectedTransactions: selectedIds };
+    }
+    case SELECT_ALL_TRANSACTIONS: {
+      if (state.transactions.length > state.selectedTransactions.length) {
+        const ids = [];
+        state.transactions.forEach(transaction => {
+          ids.push(transaction._id); // eslint-disable-line no-underscore-dangle
+        });
+        return { ...state, selectedTransactions: ids };
+      }
+      return { ...state, selectedTransactions: [] };
     }
     default:
       return state;
