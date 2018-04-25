@@ -27,8 +27,17 @@ ShallowWrapper {
           </h2>
           <Connect(Jotter) />
         </Segment>,
-        <Segment>
+        <Segment
+          className="portfolioButtonRow"
+        >
           <Connect(Ticket) />
+          <Button
+            as="button"
+            basic={true}
+            color={null}
+          >
+            Delete
+          </Button>
         </Segment>,
       ],
     },
@@ -76,18 +85,44 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "function",
         "props": Object {
-          "children": <Connect(Ticket) />,
+          "children": Array [
+            <Connect(Ticket) />,
+            <Button
+              as="button"
+              basic={true}
+              color={null}
+            >
+              Delete
+            </Button>,
+          ],
+          "className": "portfolioButtonRow",
         },
         "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "class",
-          "props": Object {},
-          "ref": null,
-          "rendered": null,
-          "type": [Function],
-        },
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {},
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "as": "button",
+              "basic": true,
+              "children": "Delete",
+              "color": null,
+            },
+            "ref": null,
+            "rendered": "Delete",
+            "type": [Function],
+          },
+        ],
         "type": [Function],
       },
     ],
@@ -106,8 +141,17 @@ ShallowWrapper {
             </h2>
             <Connect(Jotter) />
           </Segment>,
-          <Segment>
+          <Segment
+            className="portfolioButtonRow"
+          >
             <Connect(Ticket) />
+            <Button
+              as="button"
+              basic={true}
+              color={null}
+            >
+              Delete
+            </Button>
           </Segment>,
         ],
       },
@@ -155,18 +199,44 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "function",
           "props": Object {
-            "children": <Connect(Ticket) />,
+            "children": Array [
+              <Connect(Ticket) />,
+              <Button
+                as="button"
+                basic={true}
+                color={null}
+              >
+                Delete
+              </Button>,
+            ],
+            "className": "portfolioButtonRow",
           },
           "ref": null,
-          "rendered": Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "class",
-            "props": Object {},
-            "ref": null,
-            "rendered": null,
-            "type": [Function],
-          },
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {},
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "as": "button",
+                "basic": true,
+                "children": "Delete",
+                "color": null,
+              },
+              "ref": null,
+              "rendered": "Delete",
+              "type": [Function],
+            },
+          ],
           "type": [Function],
         },
       ],

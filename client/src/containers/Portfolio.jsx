@@ -100,4 +100,5 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
+export const Unwrapped = Portfolio;
 export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);
