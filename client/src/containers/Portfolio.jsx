@@ -72,7 +72,7 @@ class Portfolio extends Component {
               basic
               color={selectedHoldings.length ? "red" : null}
               onClick={this.delete}>
-                Delete
+              Delete
             </Button>
           </Segment>
         </Segment.Group>

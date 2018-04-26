@@ -2,7 +2,8 @@ import {
   SET_TRANSACTIONS,
   ADD_BOOKING,
   SELECT_TRANSACTION,
-  SELECT_ALL_TRANSACTIONS
+  SELECT_ALL_TRANSACTIONS,
+  REMOVE_TRANSACTIONS
 } from '../actions/transactionActions';
 
 export default function reducer(
@@ -33,6 +34,22 @@ export default function reducer(
         return { ...state, selectedTransactions: ids };
       }
       return { ...state, selectedTransactions: [] };
+    }
+    case REMOVE_TRANSACTIONS: {
+      const remainingTransactions = state.transactions.slice();
+      const transactionsToDelete = action.payload;
+      const ids = remainingTransactions.map(transaction => transaction._id); // eslint-disable-line no-underscore-dangle
+      transactionsToDelete.forEach(id => {
+        const index = ids.indexOf(id);
+        remainingTransactions[index] = null;
+      });
+      const updatedTransactions = [];
+      remainingTransactions.forEach(transaction => {
+        if (transaction) {
+          updatedTransactions.push(transaction);
+        }
+      });
+      return { ...state, transactions: updatedTransactions, selectedTransactions: [] }
     }
     default:
       return state;

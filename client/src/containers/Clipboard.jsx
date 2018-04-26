@@ -5,10 +5,18 @@ import { Segment, Button } from 'semantic-ui-react';
 import fetch from 'isomorphic-fetch';
 import Jotter from '../components/Jotter';
 import Ticket from '../components/Ticket';
-import { setTransactions } from '../actions/transactionActions';
+import {
+  setTransactions,
+  removeTransactions
+} from '../actions/transactionActions';
 
 
 class Clipboard extends Component {
+  constructor() {
+    super();
+    this.delete = this.delete.bind(this);
+  }
+
   componentWillMount() {
     const { handleSetTransactions } = this.props;
     fetch('http://localhost:3000/api/transactions', { method: 'get' })
@@ -21,7 +29,16 @@ class Clipboard extends Component {
     });
   }
 
+  delete() {
+    const { selectedTransactions, handleRemoveTransactions } = this.props;
+    if (!selectedTransactions.length) {
+      window.alert('No transactions selected. Please select transactions by checkboxes.');
+    }
+    handleRemoveTransactions(selectedTransactions);
+  }
+
   render() {
+    const { selectedTransactions } = this.props;
     return (
       <Segment.Group>
         <Segment>
@@ -32,7 +49,8 @@ class Clipboard extends Component {
           <Ticket />
           <Button
             basic
-            color={null}>
+            color={selectedTransactions.length ? "red" : null}
+            onClick={this.delete}>
             Delete
           </Button>
         </Segment>
@@ -42,14 +60,23 @@ class Clipboard extends Component {
 }
 
 Clipboard.propTypes = {
-  handleSetTransactions: PropTypes.func.isRequired
+  handleSetTransactions: PropTypes.func.isRequired,
+  selectedTransactions: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  handleRemoveTransactions: PropTypes.func.isRequired
 }
+
+const mapStateToProps = state => ({
+  selectedTransactions: state.transactions.selectedTransactions
+});
 
 const mapDispatchToProps = dispatch => ({
   handleSetTransactions(transactions) {
     dispatch(setTransactions(transactions));
+  },
+  handleRemoveTransactions(transactions) {
+    dispatch(removeTransactions(transactions))
   }
 });
 
 export const Unwrapped = Clipboard;
-export default connect(null, mapDispatchToProps)(Clipboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Clipboard);
