@@ -33,8 +33,29 @@ class Clipboard extends Component {
     const { selectedTransactions, handleRemoveTransactions } = this.props;
     if (!selectedTransactions.length) {
       window.alert('No transactions selected. Please select transactions by checkboxes.');
+      return;
     }
-    handleRemoveTransactions(selectedTransactions);
+    console.log('selectedTransactions:', selectedTransactions);
+    const payload = { selectedTransactions };
+    const headers = {
+      'accept': 'application/json, text/plain, */*',
+      'content-type': 'application/json'
+    };
+    const init = {
+      method: 'DELETE',
+      headers,
+      mode: 'cors',
+      body: JSON.stringify(payload),
+      json: true
+    };
+    fetch('/api/transactions/', init)
+    .then(res => res.json())
+    .then(resJSON => {
+      handleRemoveTransactions(resJSON.selectedTransactions);
+    })
+    .catch(err => {
+      console.error('Error sending ids to delete:', err) // eslint-disable-line no-console
+    })
   }
 
   render() {

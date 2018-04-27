@@ -16,9 +16,9 @@ const getAllTransactions = () => (
   })
 );
 
-const deleteTransactions = symbols => (
+const deleteTransactions = ids => (
   new Promise((resolve, reject) => {
-    Transactions.remove({ symbol: { $in: symbols } }, (err, response) => {
+    Transactions.remove({ _id: { $in: ids } }, (err, response) => {
       if (err) {
         reject(err);
       } else {

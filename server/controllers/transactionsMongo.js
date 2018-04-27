@@ -21,11 +21,11 @@ router.get('/', (req, res) => {
 });
 
 router.delete('/', (req, res) => {
-  const { selected } = req.body;
-  deleteTransactions(selected)
+  const { selectedTransactions } = req.body;
+  deleteTransactions(selectedTransactions)
   .then(response => {
-    console.log('Deleted transactions:', response);
-    res.status(303).send(response);
+    console.log('Deleted transactions:', selectedTransactions);
+    res.status(303).send({ response, selectedTransactions });
   })
   .catch(err => {
     console.error('Unable to delete transactions from db.', err); // eslint-disable-line no-console
