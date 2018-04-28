@@ -43,9 +43,22 @@ const addTransaction = ticket => {
   });
 };
 
+const getSelectedTransactions = ids => (
+  new Promise((resolve, reject) => {
+    Transactions.find({ _id: { $in: ids } }, (err, transactions) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(transactions);
+      }
+    });
+  })
+);
+
 
 module.exports = {
   getAllTransactions,
   deleteTransactions,
-  addTransaction
+  addTransaction,
+  getSelectedTransactions
 }
