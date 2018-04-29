@@ -55,10 +55,23 @@ const getSelectedTransactions = ids => (
   })
 );
 
+const getRemainingTransactions = symbols => (
+  new Promise((resolve, reject) => {
+    Transactions.find({ symbol: { $in: symbols} }, (err, transactions) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(transactions);
+      }
+    });
+  })
+);
+
 
 module.exports = {
   getAllTransactions,
   deleteTransactions,
   addTransaction,
-  getSelectedTransactions
+  getSelectedTransactions,
+  getRemainingTransactions
 }
