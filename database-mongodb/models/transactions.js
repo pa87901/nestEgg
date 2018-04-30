@@ -16,6 +16,18 @@ const getAllTransactions = () => (
   })
 );
 
+const deleteAllHoldingTransactions = symbols => (
+  new Promise((resolve, reject) => {
+    Transactions.remove({ symbol: { $in: symbols } }, (err, response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(response);
+      }
+    });
+  })
+);
+
 const deleteTransactions = ids => (
   new Promise((resolve, reject) => {
     Transactions.remove({ _id: { $in: ids } }, (err, response) => {
@@ -70,6 +82,7 @@ const getRemainingTransactions = symbols => (
 
 module.exports = {
   getAllTransactions,
+  deleteAllHoldingTransactions,
   deleteTransactions,
   addTransaction,
   getSelectedTransactions,
