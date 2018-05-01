@@ -65,10 +65,28 @@ const addHolding = ticket => {
   });
 };
 
+const updateHolding = payload => {
+  const { symbol, totalShares, averageCostPrice } = payload;
+  return new Promise((resolve, reject) => {
+    Holdings.update(
+      { symbol },
+      { $set: { shares: totalShares, costprice: averageCostPrice } },
+      (err, response) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(response);
+        }
+      }
+    );
+  });
+};
+
 
 module.exports = {
   getAllHoldings,
   getOneHolding,
   deleteHoldings,
-  addHolding
+  addHolding,
+  updateHolding
 };

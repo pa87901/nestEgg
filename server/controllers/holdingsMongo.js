@@ -4,7 +4,7 @@ const {
   getOneHolding,
   deleteHoldings
 } = require('../../database-mongodb/models/holdings');
-const { deleteTransactions } = require('../../database-mongodb/models/transactions');
+const { deleteAllHoldingTransactions } = require('../../database-mongodb/models/transactions');
 
 
 const router = express.Router();
@@ -36,7 +36,7 @@ router.delete('/', (req, res) => {
   const { selectedHoldings } = req.body;
   console.log('Symbols to delete:', selectedHoldings);
   deleteHoldings(selectedHoldings)
-  .then(() => deleteTransactions(selectedHoldings))
+  .then(() => deleteAllHoldingTransactions(selectedHoldings))
   .then(response => {
     const payload = {
       response,

@@ -2,9 +2,15 @@ const express = require('express');
 const {
   getAllTransactions,
   deleteTransactions,
-  addTransaction
+  addTransaction,
+  getSelectedTransactions,
+  getRemainingTransactions
 } = require('../../database-mongodb/models/transactions');
-const { getOneHolding, addHolding } = require('../../database-mongodb/models/holdings');
+const {
+  getOneHolding,
+  addHolding,
+  updateHolding
+} = require('../../database-mongodb/models/holdings');
 
 
 const router = express.Router();
@@ -22,10 +28,27 @@ router.get('/', (req, res) => {
 
 router.delete('/', (req, res) => {
   const { selectedTransactions } = req.body;
-  deleteTransactions(selectedTransactions)
-  .then(response => {
-    console.log('Deleted transactions:', selectedTransactions);
-    res.status(303).send({ response, selectedTransactions });
+  // Retrieve the symbols for the holdings that are about to be deleted and store them in an array or set.
+  const holdingsAffected = new Map();
+  getSelectedTransactions(selectedTransactions)
+  .then(transactionsForDeletion => {
+    transactionsForDeletion.forEach(tranx => {
+      if (!holdingsAffected.has(tranx.symbol)) {
+        holdingsAffected.set(tranx.symbol, 1);
+      }
+    });
+    return deleteTransactions(transactionsForDeletion);
+  })
+  .then(transactionsDeletedIds => {
+    // console.log('Deleted transactions:', transactionsDeletedIds);
+    const symbolsDeleted = Array.from(holdingsAffected.keys());
+    console.log('Holdings affected:', symbolsDeleted);
+    return getRemainingTransactions(symbolsDeleted);
+  })
+  .then(remainingTransactions => {
+    console.log('Remaining transactions:', remainingTransactions);
+    // Recalculate for each symbol what holdings were affected and the shares and costprice now for those holdings.
+    res.status(303).send({ remainingTransactions, selectedTransactions });
   })
   .catch(err => {
     console.error('Unable to delete transactions from db.', err); // eslint-disable-line no-console
@@ -37,13 +60,27 @@ router.post('/', (req, res) => {
   // Placeholder
   console.log('Transaction body:', req.body);
   const payload = req.body;
-  const { symbol } = payload;
+  const { symbol, transactiontype, shares, price } = payload;
   // Check if the symbol on the ticket exists in the holdings table already
   getOneHolding(symbol)
-  .then(holdingWithSymbol => {
-    if (!holdingWithSymbol) {
+  .then(existingHoldingWithSymbol => {
+    if (!existingHoldingWithSymbol) {
       console.log(`Holding with symbol ${symbol} does not exist. To call the addNewHolding model method.`);
       return addHolding(payload);
+    }
+    // Holding exists already so to add/subtract from existing holding
+    console.log('existingHoldingWithSymbol:', existingHoldingWithSymbol);
+
+    if (transactiontype === 'Buy') {
+      // Add the shares to the existing shares
+      const totalShares = shares + existingHoldingWithSymbol.shares;
+      const averageCostPrice = ((price * shares) + (existingHoldingWithSymbol.costprice * existingHoldingWithSymbol.shares)) / totalShares;
+      const payload = {
+        symbol,
+        totalShares,
+        averageCostPrice
+      }
+      return updateHolding(payload);
     }
   })
   .then(resFromAddingHolding => {
