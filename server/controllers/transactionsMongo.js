@@ -40,7 +40,6 @@ router.delete('/', (req, res) => {
     return deleteTransactions(transactionsForDeletion);
   })
   .then(transactionsDeletedIds => {
-    // console.log('Deleted transactions:', transactionsDeletedIds);
     const symbolsDeleted = Array.from(holdingsAffected.keys());
     console.log('Holdings affected:', symbolsDeleted);
     return getRemainingTransactions(symbolsDeleted);
@@ -68,19 +67,31 @@ router.post('/', (req, res) => {
       console.log(`Holding with symbol ${symbol} does not exist. To call the addNewHolding model method.`);
       return addHolding(payload);
     }
+
     // Holding exists already so to add/subtract from existing holding
     console.log('existingHoldingWithSymbol:', existingHoldingWithSymbol);
-
     if (transactiontype === 'Buy') {
       // Add the shares to the existing shares
-      const totalShares = shares + existingHoldingWithSymbol.shares;
+      const totalShares = existingHoldingWithSymbol.shares + shares;
       const averageCostPrice = ((price * shares) + (existingHoldingWithSymbol.costprice * existingHoldingWithSymbol.shares)) / totalShares;
-      const payload = {
+      const updatedPayload = {
         symbol,
         totalShares,
         averageCostPrice
-      }
-      return updateHolding(payload);
+      };
+      return updateHolding(updatedPayload);
+    }
+
+    if (transactiontype === 'Sell') {
+      // Subtract the shares from the existing shares
+      const totalShares = existingHoldingWithSymbol.shares - shares;
+      const averageCostPrice = ((existingHoldingWithSymbol.costprice * existingHoldingWithSymbol.shares) - (price * shares)) / totalShares;
+      const updatedPayload = {
+        symbol,
+        totalShares,
+        averageCostPrice
+      };
+      return updateHolding(updatedPayload);
     }
   })
   .then(resFromAddingHolding => {
