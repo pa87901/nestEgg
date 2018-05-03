@@ -70,29 +70,23 @@ router.post('/', (req, res) => {
 
     // Holding exists already so to add/subtract from existing holding
     console.log('existingHoldingWithSymbol:', existingHoldingWithSymbol);
+    const updatedPayload = { symbol };
     if (transactiontype === 'Buy') {
       // Add the shares to the existing shares
       const totalShares = existingHoldingWithSymbol.shares + shares;
       const averageCostPrice = ((price * shares) + (existingHoldingWithSymbol.costprice * existingHoldingWithSymbol.shares)) / totalShares;
-      const updatedPayload = {
-        symbol,
-        totalShares,
-        averageCostPrice
-      };
-      return updateHolding(updatedPayload);
+      updatedPayload.totalShares = totalShares;
+      updatedPayload.averageCostPrice = averageCostPrice;
     }
 
     if (transactiontype === 'Sell') {
       // Subtract the shares from the existing shares
       const totalShares = existingHoldingWithSymbol.shares - shares;
       const averageCostPrice = ((existingHoldingWithSymbol.costprice * existingHoldingWithSymbol.shares) - (price * shares)) / totalShares;
-      const updatedPayload = {
-        symbol,
-        totalShares,
-        averageCostPrice
-      };
-      return updateHolding(updatedPayload);
+      updatedPayload.totalShares = totalShares;
+      updatedPayload.averageCostPrice = averageCostPrice;
     }
+    return updateHolding(updatedPayload);
   })
   .then(resFromAddingHolding => {
     console.log('Holding has been added, now to add transaction:', resFromAddingHolding);
