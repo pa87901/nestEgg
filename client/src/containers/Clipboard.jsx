@@ -9,6 +9,7 @@ import {
   setTransactions,
   removeTransactions
 } from '../actions/transactionActions';
+import { updateHoldings } from '../actions/holdingActions';
 
 
 class Clipboard extends Component {
@@ -30,7 +31,7 @@ class Clipboard extends Component {
   }
 
   delete() {
-    const { selectedTransactions, handleRemoveTransactions } = this.props;
+    const { selectedTransactions, handleRemoveTransactions, handleUpdateHoldings } = this.props;
     if (!selectedTransactions.length) {
       window.alert('No transactions selected. Please select transactions by checkboxes.');
       return;
@@ -51,7 +52,10 @@ class Clipboard extends Component {
     fetch('/api/transactions/', init)
     .then(res => res.json())
     .then(resJSON => {
-      handleRemoveTransactions(resJSON.selectedTransactions);
+      console.log('resJSON:', resJSON);
+      const { responseSet } = resJSON;
+      handleRemoveTransactions(selectedTransactions);
+      handleUpdateHoldings(responseSet)
     })
     .catch(err => {
       console.error('Error sending ids to delete:', err) // eslint-disable-line no-console
@@ -83,8 +87,9 @@ class Clipboard extends Component {
 Clipboard.propTypes = {
   handleSetTransactions: PropTypes.func.isRequired,
   selectedTransactions: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
-  handleRemoveTransactions: PropTypes.func.isRequired
-}
+  handleRemoveTransactions: PropTypes.func.isRequired,
+  handleUpdateHoldings: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
   selectedTransactions: state.transactions.selectedTransactions
@@ -96,6 +101,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleRemoveTransactions(transactions) {
     dispatch(removeTransactions(transactions))
+  },
+  handleUpdateHoldings(holdings) {
+    dispatch(updateHoldings(holdings));
   }
 });
 

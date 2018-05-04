@@ -3,7 +3,8 @@ import {
   SELECT_HOLDING,
   SELECT_ALL_HOLDINGS,
   REMOVE_BOOKINGS,
-  ADD_HOLDING
+  ADD_HOLDING,
+  UPDATE_HOLDINGS
 } from '../actions/holdingActions';
 
 export default function reducer(
@@ -96,6 +97,11 @@ export default function reducer(
       foundHolding.shares = totalShares;
       foundHolding.costprice = averageCostPrice;
       return { ...state, holdings: state.holdings.slice() };
+    }
+    case UPDATE_HOLDINGS: {
+      // Iterate through the holdings array payload...
+        // For each holding 
+      return { ...state, holdings: action.payload }
     }
     default:
       return state;

@@ -39,15 +39,38 @@ router.delete('/', (req, res) => {
     });
     return deleteTransactions(transactionsForDeletion);
   })
-  .then(transactionsDeletedIds => {
+  .then(() => {
     const symbolsDeleted = Array.from(holdingsAffected.keys());
     console.log('Holdings affected:', symbolsDeleted);
     return getRemainingTransactions(symbolsDeleted);
   })
   .then(remainingTransactions => {
     console.log('Remaining transactions:', remainingTransactions);
+    const responseSet = new Set();
     // Recalculate for each symbol what holdings were affected and the shares and costprice now for those holdings.
-    res.status(303).send({ remainingTransactions, selectedTransactions });
+    // Iterate through the remainingTransactions and calculate shares & cost price
+    holdingsAffected.forEach((value, symb) => {
+      console.log('v:', value, 's:', symb);
+      const subResponse = {
+        symbol: symb,
+        shares: 0,
+        price: 0
+      };
+      let aggregateWeightedPrice = 0;
+      for (let i = 0; i < remainingTransactions.length; i += 1) {
+        const { symbol, shares, price } = remainingTransactions[i];
+        if (symbol === subResponse.symbol) {
+          subResponse.shares += shares;
+          aggregateWeightedPrice += (price * shares);
+        }
+      }
+      // Calculated average cost price
+      subResponse.price = aggregateWeightedPrice / subResponse.shares;
+      // Add subResponse to set
+      responseSet.add(subResponse);
+    });
+    console.log('Turbo boost:', responseSet);
+    res.status(303).send({ remainingTransactions, selectedTransactions, responseSet: Array.from(responseSet) });
   })
   .catch(err => {
     console.error('Unable to delete transactions from db.', err); // eslint-disable-line no-console
@@ -95,7 +118,7 @@ router.post('/', (req, res) => {
   .then(resFromAddingTransaction => {
     console.log('Transaction has been added:', resFromAddingTransaction);
     console.log('Both holding and transaction has been added. Sending back ticket response to the client.');
-    res.status(418).send(payload);
+    res.status(418).send(resFromAddingTransaction);
   })
   .catch(err => {
     console.error('Error adding trade ticket to db.', err); // eslint-disable-line no-console
