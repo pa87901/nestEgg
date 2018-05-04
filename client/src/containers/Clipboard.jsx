@@ -55,7 +55,7 @@ class Clipboard extends Component {
       console.log('resJSON:', resJSON);
       const { responseSet } = resJSON;
       handleRemoveTransactions(selectedTransactions);
-      handleUpdateHoldings(responseSet)
+      handleUpdateHoldings(responseSet);
     })
     .catch(err => {
       console.error('Error sending ids to delete:', err) // eslint-disable-line no-console

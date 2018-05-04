@@ -53,23 +53,24 @@ router.delete('/', (req, res) => {
       console.log('v:', value, 's:', symb);
       const subResponse = {
         symbol: symb,
-        shares: 0,
-        price: 0
+        totalShares: 0,
+        averageCostPrice: 0
       };
       let aggregateWeightedPrice = 0;
       for (let i = 0; i < remainingTransactions.length; i += 1) {
         const { symbol, shares, price } = remainingTransactions[i];
         if (symbol === subResponse.symbol) {
-          subResponse.shares += shares;
+          subResponse.totalShares += shares;
           aggregateWeightedPrice += (price * shares);
         }
       }
       // Calculated average cost price
-      subResponse.price = aggregateWeightedPrice / subResponse.shares;
+      subResponse.averageCostprice = aggregateWeightedPrice / subResponse.shares;
       // Add subResponse to set
       responseSet.add(subResponse);
     });
     console.log('Turbo boost:', responseSet);
+    // Update Holdings in MongoDB with responseSet
     res.status(303).send({ remainingTransactions, selectedTransactions, responseSet: Array.from(responseSet) });
   })
   .catch(err => {
