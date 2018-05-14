@@ -65,12 +65,23 @@ router.delete('/', (req, res) => {
         }
       }
       // Calculated average cost price
-      subResponse.averageCostprice = aggregateWeightedPrice / subResponse.shares;
+      subResponse.averageCostPrice = aggregateWeightedPrice / subResponse.totalShares;
       // Add subResponse to set
       responseSet.add(subResponse);
     });
     console.log('Turbo boost:', responseSet);
     // Update Holdings in MongoDB with responseSet
+    // For each sub response object in the Set...
+    responseSet.forEach(holding => (
+      updateHolding(holding)
+      .then(updateRes => {
+        console.log('Updated', holding.symbol, updateRes);
+      })
+      .catch(err => {
+        console.error('Unable to update', holding.symbol, err);
+      })
+    ));
+      // Update the holding with that symbol in MongoDB
     res.status(303).send({ remainingTransactions, selectedTransactions, responseSet: Array.from(responseSet) });
   })
   .catch(err => {
