@@ -9,7 +9,8 @@ const {
 const {
   getOneHolding,
   addHolding,
-  updateHolding
+  updateHolding,
+  deleteHoldings
 } = require('../../database-mongodb/models/holdings');
 
 
@@ -70,19 +71,40 @@ router.delete('/', (req, res) => {
       responseSet.add(subResponse);
     });
     console.log('Turbo boost:', responseSet);
+    // Initiate an array for deleting holdings.
+    const disappearingHoldings = [];
     // Update Holdings in MongoDB with responseSet
     // For each sub response object in the Set...
-    responseSet.forEach(holding => (
-      updateHolding(holding)
-      .then(updateRes => {
-        console.log('Updated', holding.symbol, updateRes);
+    let updateCountDown = responseSet.size;
+    responseSet.forEach(holding => {
+      if (!holding.totalShares) {
+        // Delete the holding
+        disappearingHoldings.push(holding.symbol);
+      } else {
+        updateHolding(holding)
+        .then(updateRes => {
+          console.log('Updated', holding.symbol, updateRes);
+          updateCountDown -= 1;
+        })
+        .catch(err => {
+          console.error('Unable to update', holding.symbol, err);
+        });
+      }
+    });
+    if (disappearingHoldings.length) {
+      deleteHoldings(disappearingHoldings)
+      .then(resDel => {
+        console.log('Holdings deleted:', disappearingHoldings, resDel);
       })
       .catch(err => {
-        console.error('Unable to update', holding.symbol, err);
+        console.error('Error deleting holdings:', err);
       })
-    ));
-      // Update the holding with that symbol in MongoDB
-    res.status(303).send({ remainingTransactions, selectedTransactions, responseSet: Array.from(responseSet) });
+    }
+    if (!updateCountDown) {
+      res.status(200).send({ remainingTransactions, selectedTransactions, responseSet: Array.from(responseSet) });
+    } else {
+      res.status(400).send({ responseSet: Array.from(responseSet) })
+    }
   })
   .catch(err => {
     console.error('Unable to delete transactions from db.', err); // eslint-disable-line no-console
