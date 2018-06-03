@@ -11,7 +11,8 @@
     "start": "NODE_ENV=server nodemon server/index.js",
     "build": "webpack -p",
     "seedDb": "node ./database/seedData.js",
-    "seedMDb": "node ./database-mongodb/seedDb.js"
+    "seedMDb": "node ./database-mongodb/seedDb/index.js",
+    "seedRMDb": "node ./database-mongodb/seedRealDb/index.js"
   },
   "repository": {
     "type": "git",

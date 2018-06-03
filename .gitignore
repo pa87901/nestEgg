@@ -1,8 +1,8 @@
 # Dependencies
-node_modules
+/node_modules
 
 # Logs
-logs
+/logs
 *.logs
 
 # Compiled directory and file
@@ -13,7 +13,10 @@ bundle.js
 dummyPositions.js
 
 # Temporary files most probably now obselete to the project
-park
+/park
 
 # Secret files
-secrets
+/secrets
+
+# Real transaction data and seeding script
+/database-mongodb/seedRealDb

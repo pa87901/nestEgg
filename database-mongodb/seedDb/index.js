@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
-const { holdingsSchema, transactionsSchema } = require('./schema');
+const { holdingsSchema, transactionsSchema } = require('../schema');
 const { holdings, transactions } = require('./dummyData');
 
 
