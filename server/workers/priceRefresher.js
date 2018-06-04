@@ -1,16 +1,16 @@
-'use strict'
 const cron = require('node-cron');
 
 // Cron is set to update holdings prices at 12am midnight every Monday - Friday
-cron.schedule('0 0 * * 1-5', () => {
-  const request = require('request');
+// cron.schedule('0 0 * * 1-5', () => {
+cron.schedule('* * * * * *', () => {
   const mongoose = require('mongoose');
   const Promise = require('bluebird');
+  const request = Promise.promisify(require('request'));
   const { getAllHoldings, updateHoldingPrice } = require('../../database-mongodb/models/holdings');
   const apiKey = require('../../secrets/alphavantageAPIKey')
 
   Promise.promisifyAll(mongoose);
-
+  Promise.promisifyAll(request);
   mongoose.Promise = global.Promise;
   mongoose.connect('mongodb://localhost:27017/nestegg');
 
@@ -31,6 +31,7 @@ cron.schedule('0 0 * * 1-5', () => {
           'content-type': 'application/json'
         }
       }
+      /*
       request(options, (err, response, fields) => {
         if (err) {
           throw new Error(err);
@@ -52,6 +53,31 @@ cron.schedule('0 0 * * 1-5', () => {
         .catch(err => {
           console.error('Darn', err);
         });
+      });
+      */
+      request(options)
+      .then(res => {
+        const fields = res.body;
+        const obj = JSON.parse(fields);
+        const mine = obj['Time Series (Daily)'];
+        const latestPrices = Object.keys(mine)[0];
+        const latestClosePrice = mine[latestPrices]['4. close'];
+        console.log(latestClosePrice);
+        const payload = {
+          symbol,
+          lastprice: currentprice,
+          currentprice: latestClosePrice
+        };
+        updateHoldingPrice(payload)
+        .then(resMsg => {
+          console.log('Successfully updated latest price', resMsg);
+        })
+        .catch(err => {
+          throw new Error('Darn', err);
+        });
+      })
+      .catch(err => {
+        throw new Error(err);
       });
     });
   })
