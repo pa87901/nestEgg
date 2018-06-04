@@ -82,11 +82,28 @@ const updateHolding = payload => {
   });
 };
 
+const updateHoldingPrice = ({ symbol, lastprice, currentprice }) => (
+  new Promise((resolve, reject) => {
+    Holdings.update(
+      { symbol },
+      { $set: { currentprice, lastprice } },
+      (err, response) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(response);
+        }
+      }
+    );
+  })
+);
+
 
 module.exports = {
   getAllHoldings,
   getOneHolding,
   deleteHoldings,
   addHolding,
-  updateHolding
+  updateHolding,
+  updateHoldingPrice
 };
