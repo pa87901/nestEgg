@@ -1,7 +1,8 @@
 const cron = require('node-cron');
 
 // Cron is set to update holdings prices at 12am midnight every Monday - Friday
-cron.schedule('0 0 * * 1-5', () => {
+// cron.schedule('0 0 * * 1-5', () => {
+cron.schedule('* * * * *', () => {
   const mongoose = require('mongoose');
   const Promise = require('bluebird');
   const request = Promise.promisify(require('request'));
@@ -43,16 +44,13 @@ cron.schedule('0 0 * * 1-5', () => {
           lastprice: currentprice,
           currentprice: latestClosePrice
         };
-        updateHoldingPrice(payload)
-        .then(resMsg => {
-          console.log('Successfully updated latest price', resMsg);
-        })
-        .catch(err => {
-          throw new Error('Darn', err);
-        });
+        return updateHoldingPrice(payload);
+      })
+      .then(resMsg => {
+        console.log('Successfully updated latest price', resMsg);
       })
       .catch(err => {
-        throw new Error(err);
+        throw new Error('Darn', err);
       });
     });
   })
